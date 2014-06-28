@@ -1,0 +1,5 @@
+if test -n "$TMUX"; then
+	. .bashrc
+else
+	exec tmux attach
+fi
