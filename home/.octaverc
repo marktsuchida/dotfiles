@@ -1,0 +1,3 @@
+PS1('oct:\#> ');
+crash_dumps_octave_core(0);
+
