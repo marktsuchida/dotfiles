@@ -1,5 +1,8 @@
 if test -n "$TMUX"; then
 	. .bashrc
-else
+elif test -n "`which tmux`"; then
 	exec tmux attach
+else
+	echo "tmux not available"
+	. .bashrc
 fi
