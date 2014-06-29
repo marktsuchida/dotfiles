@@ -1,6 +1,7 @@
 if test -n "$TMUX"; then
 	. .bashrc
 elif test -n "`which tmux`"; then
+	export EDITOR=vim
 	exec tmux attach
 else
 	echo "tmux not available"
