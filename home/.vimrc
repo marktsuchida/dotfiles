@@ -146,7 +146,7 @@ au FileType simple call SimpleHighlightSyntax()
 
 
 """ Abbreviations
-iabbrev mm Micro-Manager
+iabbrev umgr Micro-Manager
 iabbrev hcw Hardware Configuration Wizard
 iabbrev dpb Device Property Browser
 iabbrev probrep Problem Report (Help Menu)
