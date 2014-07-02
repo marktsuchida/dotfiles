@@ -37,7 +37,6 @@ alias '.....'='cd ../../../..'
 alias octave='octave -q'
 alias bc='bc -lq'
 alias w3m='w3m -v'
-alias shl='source-highlight -f esc --style-file=esc.style'
 alias hd="od -A x -t x1c"
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -94,8 +93,8 @@ export INFOPATH=/usr/local/info:/usr/local/share/info:$INFOPATH:$HOME/info:$HOME
 export PAGER='less'
 export LESS='-Ri'
 export LESSCHARSET=utf-8
-if test -x "/usr/local/bin/src-hilite-lesspipe.sh"; then
-	export LESSOPEN="| /usr/local/bin/src-hilite-lesspipe.sh %s"
+if test -n "$(which source-highlight)"; then
+	export LESSOPEN="| $HOME/bin/src-hilite-lesspipe.sh %s"
 fi
 export EDITOR=vim
 export VISUAL=vim
