@@ -9,7 +9,7 @@ fi
 export PATH=/usr/local/bin:$PATH
 export PATH=$PATH:$HOME/bin
 
-PS1='\w \$ '
+PS1='[\u@\h \w]\n$ '
 PS2='> '
 FIGNORE='~'
 
@@ -118,6 +118,14 @@ for scpt in /usr/local/etc/bash_completion.d/*; do
 	source $scpt
 done
 
+# Git prompt if available
+function_declared() {
+	declare -F $1 >/dev/null
+	return $?
+}
+function_declared __git_ps1 && PS1='[\u@\h \w$(__git_ps1 " (%s)")]\n$ '
+
+# Homebrew
 export HOMEBREW_GITHUB_API_TOKEN=25fc788cfeee232a3df829a4ec7ba0b195977f61
 
 # Define homeshick command
