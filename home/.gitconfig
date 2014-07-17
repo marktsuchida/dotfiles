@@ -7,3 +7,5 @@
 	branch = auto
 [alias]
 	suno = status -uno
+[credential]
+	helper = cache --timeout=3600
