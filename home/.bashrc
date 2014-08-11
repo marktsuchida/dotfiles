@@ -94,7 +94,10 @@ export PAGER='less'
 export LESS='-Ri'
 export LESSCHARSET=utf-8
 if test -n "$(which source-highlight)"; then
-	export LESSOPEN="| $HOME/bin/src-hilite-lesspipe.sh %s"
+	src_hilite_lesspipe="$(which src-hilite-lesspipe.sh)"
+	if test -x "$src_hilite_lesspipe"; then
+		export LESSOPEN="| $src_hilite_lesspipe %s"
+	fi
 fi
 export EDITOR=vim
 export VISUAL=vim
