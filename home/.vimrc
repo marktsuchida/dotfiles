@@ -82,6 +82,7 @@ set listchars=trail:▫,tab:‣‣
 
 command Twotab setlocal tabstop=2 shiftwidth=2 expandtab smarttab
 command Threetab setlocal tabstop=3 shiftwidth=3 expandtab smarttab
+command Threerealtab setlocal tabstop=3 shiftwidth=3 noexpandtab smarttab
 command Fourtab setlocal tabstop=4 shiftwidth=4 expandtab smarttab
 command Fourrealtab setlocal tabstop=4 shiftwidth=4 noexpandtab
 command Eightrealtab setlocal tabstop=8 shiftwidth=8 noexpandtab
