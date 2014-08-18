@@ -75,7 +75,7 @@ set nojoinspaces
 set printoptions=paper:letter
 set cursorline
 set list
-set listchars=trail:▫,tab:‣◦
+set listchars=trail:▫,tab:‣\ 
 
 
 """ Tab setting commands
