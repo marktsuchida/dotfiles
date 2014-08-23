@@ -41,7 +41,7 @@ alias hd="od -A x -t x1c"
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias rule='echo ◼◼◼◼◼'
+alias rule='printf \\033[33m◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼\\033[39m\\n'
 
 if test "$is_darwin" = yes; then
 	alias 'open.'='open .'
