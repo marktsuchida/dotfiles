@@ -78,6 +78,10 @@ set list
 set listchars=trail:▫,tab:‣\ 
 
 
+""" Japanese input
+command Jpn setlocal formatoptions+=mB nospell
+
+
 """ Tab setting commands
 
 command Twotab setlocal tabstop=2 shiftwidth=2 expandtab smarttab
