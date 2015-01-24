@@ -133,6 +133,11 @@ au BufNewFile,BufRead *.i set filetype=swig
 au BufRead,BufNewFile *.go set filetype=go
 
 
+""" Tag List plugin settings
+
+let Tlist_Show_One_File = 1
+
+
 """ Simple text highlighting
 
 function SimpleHighlightSyntax()
