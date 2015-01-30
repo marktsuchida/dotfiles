@@ -49,8 +49,15 @@ if test "$is_darwin" = yes; then
 	alias Skim='open -a Skim'
 	alias acroread='open -a "Adobe Reader.app"'
 	alias chrome='open -a "Google Chrome.app"'
+	alias pbcopy='reattach-to-user-namespace pbcopy'
+	alias pbpaste='reattach-to-user-namespace pbpaste'
 	alias pbclear='pbcopy < /dev/null'
-	alias pbsort='pbpaste | sort | pbcopy'
+
+	pbsort()
+	{
+		reattach-to-user-namespace pbpaste | \
+			sort "$@" | reattach-to-user-namespace pbcopy
+	}
 
 	manskim()
 	{
