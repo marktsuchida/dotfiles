@@ -13,6 +13,9 @@ PS1='[\u@\h \w]\n$ '
 PS2='> '
 FIGNORE='~'
 
+HISTFILESIZE=5000
+shopt -s histappend
+
 ### Hosts
 
 export MONTEVERDI=50.0.150.224
