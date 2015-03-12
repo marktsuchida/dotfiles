@@ -82,6 +82,10 @@ set listchars=trail:▫,tab:‣\
 command Jpn setlocal formatoptions+=mB nospell
 
 
+""" Edit text without newlines
+command FlowText setlocal spell wrap linebreak nolist textwidth=0 wrapmargin=0
+
+
 """ Tab setting commands
 
 command Twotab setlocal tabstop=2 shiftwidth=2 expandtab smarttab
