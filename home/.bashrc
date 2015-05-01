@@ -14,7 +14,7 @@ PS2='> '
 FIGNORE='~'
 
 HISTFILESIZE=5000
-shopt -s histappend
+shopt -s extglob histappend
 
 ### Hosts
 
