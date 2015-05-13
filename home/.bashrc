@@ -25,6 +25,10 @@ export ROUNDHOUSE=169.230.22.232
 alias sshadhyasahome='ssh -Y -p 2223 ${MONTEVERDI}'
 alias sshraspihome='ssh -Y -p 2224 ${MONTEVERDI}'
 
+### Have ssh-agent running
+
+eval `ssh-agent -s` >/dev/null
+
 ### Aliases and functions
 
 alias ls='ls -wF'
