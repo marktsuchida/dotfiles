@@ -1,9 +1,19 @@
-if test -n "$TMUX"; then
-	. .bashrc
-elif test -n "`which tmux`"; then
-	export EDITOR=vim
-	exec tmux attach
-else
-	echo "tmux not available"
-	. .bashrc
-fi
+# We need to avoid starting tmux when invoked from certain scripts
+# (such as the XQuartz startup script). In this case, bash is a login
+# shell but not an interactive shell.
+case "$-" in
+*i*) # Interactive shell
+	if test -n "$TMUX"; then
+		# Started inside tmux
+		if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+	elif test -n "`which tmux`"; then
+		export EDITOR=vim
+		exec tmux attach
+	else
+		echo "tmux not available"
+		if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+	fi
+	;;
+*) # Non-interactive shell
+	;;
+esac
