@@ -9,7 +9,7 @@ fi
 export PATH=/usr/local/bin:$PATH
 export PATH=$PATH:$HOME/bin
 
-PS1='[\u@\h \w]\n$ '
+PS1='[\u@\h \w]\n\! $ '
 PS2='> '
 FIGNORE='~'
 
@@ -140,7 +140,7 @@ function_declared() {
 	declare -F $1 >/dev/null
 	return $?
 }
-function_declared __git_ps1 && PS1='[\u@\h \w$(__git_ps1 " (%s)")]\n$ '
+function_declared __git_ps1 && PS1='[\u@\h \w$(__git_ps1 " (%s)")]\n\! $ '
 
 # Homebrew
 export HOMEBREW_GITHUB_API_TOKEN=25fc788cfeee232a3df829a4ec7ba0b195977f61
