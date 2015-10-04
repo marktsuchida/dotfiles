@@ -134,6 +134,7 @@ fi
 for scpt in /usr/local/etc/bash_completion.d/*; do
 	source $scpt
 done
+complete -C aws_completer aws
 
 # Git prompt if available
 function_declared() {
