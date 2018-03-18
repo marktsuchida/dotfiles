@@ -142,10 +142,7 @@ if which go &>/dev/null; then
 fi
 
 # Completions (homebrew)
-for scpt in /usr/local/etc/bash_completion.d/*; do
-	source $scpt
-done
-complete -C aws_completer aws
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 # Git prompt if available
 function_declared() {
