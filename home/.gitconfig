@@ -6,7 +6,7 @@
 	status = auto
 	branch = auto
 [credential]
-	helper = cache --timeout=3600
+	helper = cache --timeout=7200
 [merge]
 	conflictstyle = diff3
 [push]
