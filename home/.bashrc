@@ -173,6 +173,9 @@ kubectl_context() {
 	[ -n "$context" ] && echo " k8s:$context"
 }
 
+# Minikube completions
+which minikube &>/dev/null && [ -f ~/.minikube-completion ] && . ~/.minikube-completion
+
 # Homebrew
 export HOMEBREW_GITHUB_API_TOKEN=25fc788cfeee232a3df829a4ec7ba0b195977f61
 
