@@ -177,7 +177,7 @@ kubectl_context() {
 which minikube &>/dev/null && [ -f ~/.minikube-completion ] && . ~/.minikube-completion
 
 # Homebrew
-export HOMEBREW_GITHUB_API_TOKEN=25fc788cfeee232a3df829a4ec7ba0b195977f61
+export HOMEBREW_GITHUB_API_TOKEN=7a561f18bd27910766a3e349713aab284eea2436
 
 # Define homeshick command
 source $HOME/.homesick/repos/homeshick/homeshick.sh
