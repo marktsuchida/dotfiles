@@ -1,5 +1,47 @@
-" Forgo vi compatibility
-set nocompatible
+" First section of this file based on vimrc_example.vim
+
+" Get the defaults that most users want.
+source $VIMRUNTIME/defaults.vim
+
+set backup
+set backupcopy=yes
+if has('persistent_undo')
+  set undofile
+endif
+
+if &t_Co > 2 || has("gui_running")
+  " Switch on highlighting the last used search pattern.
+  set hlsearch
+endif
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+  " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+    au!
+
+    " For all text files set 'textwidth' to 78 characters.
+    autocmd FileType text setlocal textwidth=78
+  augroup END
+else
+  set autoindent
+endif " has("autocmd")
+
+" Add optional packages.
+"
+" The matchit plugin makes the % command work better, but it is not backwards
+" compatible.
+" The ! means the package won't be loaded right away but when plugins are
+" loaded during initialization.
+if has('syntax') && has('eval')
+  packadd! matchit
+endif
+
+
+"
+" End of section based on the example .vimrc file
+"
+
 
 " Detect operating system
 let s:is_windows = has("win32") || has("win64")
@@ -11,63 +53,9 @@ else
   let s:is_osx = 0
 endif
 
-" Allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-set backup
-set backupcopy=yes
-
-set history=100
-set ruler
-set showcmd
-set incsearch
-set hlsearch
-
-" Used enhanced Ex-mode
-map Q gQ
-
-" Switch syntax highlighting on, when the terminal has colors
-if &t_Co > 2 || has("gui_running")
-  syntax on
-endif
-
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
-
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
-
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
-
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
-
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
-
-  augroup END
-
-endif " has("autocmd")
-
-
-"
-" End of section based on the example .vimrc file
-"
-
 
 """ General preference settings
 
-set autoindent
 set hidden
 set laststatus=2
 set encoding=utf-8
