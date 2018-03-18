@@ -127,6 +127,8 @@ export VISUAL=vim
 
 export SCREENDIR=$HOME/.screen
 
+export GROOVY_HOME=/usr/local/opt/groovy/libexec
+
 # Colors for 'ls'
 export CLICOLOR=1
 
