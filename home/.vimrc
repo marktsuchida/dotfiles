@@ -78,10 +78,13 @@ command FlowText setlocal spell wrap linebreak nolist textwidth=0 wrapmargin=0
 
 command Twotab setlocal tabstop=2 shiftwidth=2 expandtab smarttab
 command Threetab setlocal tabstop=3 shiftwidth=3 expandtab smarttab
-command Threerealtab setlocal tabstop=3 shiftwidth=3 noexpandtab smarttab
 command Fourtab setlocal tabstop=4 shiftwidth=4 expandtab smarttab
-command Fourrealtab setlocal tabstop=4 shiftwidth=4 noexpandtab
-command Eightrealtab setlocal tabstop=8 shiftwidth=8 noexpandtab
+command Eighttab setlocal tabstop=8 shiftwidth=8 expandtab smarttab
+
+command Realtwotab setlocal tabstop=2 shiftwidth=2 noexpandtab
+command Realthreetab setlocal tabstop=3 shiftwidth=3 noexpandtab
+command Realfourtab setlocal tabstop=4 shiftwidth=4 noexpandtab
+command Realeighttab setlocal tabstop=8 shiftwidth=8 noexpandtab
 
 
 """ Good for lisp-like languages
