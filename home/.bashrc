@@ -28,11 +28,6 @@ shopt -s extglob histappend
 ### Hosts
 
 export MONTEVERDI=50.0.150.224
-export RAILYARD=169.230.22.250
-export ROUNDHOUSE=169.230.22.232
-
-alias sshadhyasahome='ssh -Y -p 2223 ${MONTEVERDI}'
-alias sshraspihome='ssh -Y -p 2224 ${MONTEVERDI}'
 
 ### Have ssh-agent running
 
