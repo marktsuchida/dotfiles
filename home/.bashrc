@@ -179,6 +179,15 @@ which minikube &>/dev/null && [ -f ~/.minikube-completion ] && . ~/.minikube-com
 # Homebrew
 export HOMEBREW_GITHUB_API_TOKEN=7a561f18bd27910766a3e349713aab284eea2436
 
+# AWS
+set-aws-profile() {
+	# Fail early
+	aws configure get aws_access_key_id --profile $1 || return 1
+	export AWS_PROFILE="$1"
+	export AWS_ACCESS_KEY_ID="$(aws configure get aws_access_key_id --profile $1)"
+	export AWS_SECRET_ACCESS_KEY="$(aws configure get aws_secret_access_key --profile $1)"
+}
+
 # Define homeshick command
 source $HOME/.homesick/repos/homeshick/homeshick.sh
 source $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
