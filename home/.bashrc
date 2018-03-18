@@ -135,9 +135,9 @@ export CLICOLOR=1
 # see also .gnuplot
 export GNUTERM=x11
 
-# Go
-if test -d "$HOME/go"; then
-	export GOROOT=$HOME/go
+# Go (installed by homebrew)
+if which go &>/dev/null; then
+	export GOROOT=/usr/local/opt/go/libexec
 	export PATH=$PATH:$GOROOT/bin
 fi
 
