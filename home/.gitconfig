@@ -13,3 +13,5 @@
 	default = simple
 [diff]
 	dirstat = files,0
+[alias]
+	graph = log --graph
