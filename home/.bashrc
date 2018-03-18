@@ -9,8 +9,17 @@ fi
 export PATH=/usr/local/bin:$PATH
 export PATH=$PATH:$HOME/bin
 
-PS1='[\u@\h \w]\n\! $ '
-PS2='> '
+ps_esc() {
+	printf '\[\e'$1'\]'
+}
+ps1=$(ps_esc "[1;31;47m")'$(nonzero_return)'$(ps_esc "[m")
+ps1+=$(ps_esc "[1;42m")'[\u@\h \w]'$(ps_esc "[m")
+ps1+=$(ps_esc "[32m")'$(safe_git_ps1)$(aws_profile)$(kubectl_context)'$(ps_esc "[m")
+ps1+='\n'
+ps1+=$(ps_esc "[1;32m")'\! $'$(ps_esc "[m")
+ps1+=' '
+PS1="$ps1"
+PS2=$(ps_esc "[1;42m")'>'$(ps_esc "[m")' '
 FIGNORE='~'
 
 HISTFILESIZE=5000
@@ -141,7 +150,29 @@ function_declared() {
 	declare -F $1 >/dev/null
 	return $?
 }
-function_declared __git_ps1 && PS1='[\u@\h \w$(__git_ps1 " (%s)")]\n\! $ '
+safe_git_ps1() {
+	function_declared __git_ps1 && __git_ps1 " (%s)"
+}
+
+# Show nonzero return in prompt
+nonzero_return() {
+	local retval=$?
+	[ "$retval" -ne 0 ] && echo $retval
+}
+
+# Show AWS profile
+aws_profile() {
+	[ -n "$AWS_PROFILE" ] && echo " aws:$AWS_PROFILE"
+}
+
+# Show kubectl context in prompt
+kubectl_context() {
+	which kubectl &>/dev/null || return
+	local context=$(kubectl config current-context 2>/dev/null)
+	# Would be nice to hide "k8s:minikube" when minikube is not running,
+	# but 'minikube status' is too slow to run for every prompt.
+	[ -n "$context" ] && echo " k8s:$context"
+}
 
 # Homebrew
 export HOMEBREW_GITHUB_API_TOKEN=25fc788cfeee232a3df829a4ec7ba0b195977f61
