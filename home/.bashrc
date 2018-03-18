@@ -86,6 +86,11 @@ if test "$is_darwin" = yes; then
 	}
 fi
 
+asciidump()
+{
+	hexdump -ve '80/1 "%1_p" "\n"' "$@"
+}
+
 nkfless()
 {
 	nkf -w ${1} | less
