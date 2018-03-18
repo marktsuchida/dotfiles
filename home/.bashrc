@@ -188,6 +188,24 @@ set-aws-profile() {
 	export AWS_SECRET_ACCESS_KEY="$(aws configure get aws_secret_access_key --profile $1)"
 }
 
+# Gradle: use gradlew when present
+gradle() {
+	local gradlew=
+	local dir=.
+	while [ $(cd $dir; pwd) != / ]; do
+		if [ -x $dir/gradlew ]; then
+			gradlew=$dir/gradlew
+			break
+		fi
+		if [ $dir = . ]; then dir=..; else dir=$dir/..; fi
+	done
+	if [ -z "$gradlew" ]; then
+		gradlew=$(which gradle)
+	fi
+	echo "[$gradlew]"
+	$gradlew "$@"
+}
+
 # Define homeshick command
 source $HOME/.homesick/repos/homeshick/homeshick.sh
 source $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
