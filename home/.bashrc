@@ -6,8 +6,17 @@ if test "$is_darwin" = yes; then
 	ulimit -u 512 -n 1024
 fi
 
-export PATH=/usr/local/bin:$PATH
-export PATH=$PATH:$HOME/bin
+prepend_if_not_in_path() {
+	[[ ":${!1}:" == *":$2:"* ]] || export $1="$2:${!1}"
+}
+
+append_if_not_in_path() {
+	[[ ":${!1}:" == *":$2:"* ]] || export $1="${!1}:$2"
+}
+
+prepend_if_not_in_path PATH /usr/local/bin
+prepend_if_not_in_path PATH /opt/local/bin
+append_if_not_in_path PATH "$HOME/bin"
 
 ps_esc() {
 	printf '\[\e'$1'\]'
@@ -105,13 +114,18 @@ for year in 2012 2013 2014 2015 2016; do
 	fi
 done
 if test -n "$texlive"; then
-	texmanpath="$texlive/texmf-dist/doc/man"
-	texinfopath="$texlive/texmf-dist/doc/info"
-	export MANPATH=$texmanpath:$MANPATH
-	export INFOPATH=$texinfopath:$INFOPATH
+	prepend_if_not_in_path MANPATH "$texlive/texmf-dist/doc/man"
+	prepend_if_not_in_path INFOPATH "$texlive/texmf-dist/doc/info"
 fi
-export MANPATH=/usr/local/man:/usr/local/share/man:$MANPATH:$HOME/man:$HOME/share/man
-export INFOPATH=/usr/local/info:/usr/local/share/info:$INFOPATH:$HOME/info:$HOME/share/info
+
+prepend_if_not_in_path MANPATH /usr/local/share/man
+prepend_if_not_in_path MANPATH /usr/local/man
+append_if_not_in_path MANPATH $HOME/man
+append_if_not_in_path MANPATH $HOME/share/man
+prepend_if_not_in_path INFOPATH /usr/local/share/info
+prepend_if_not_in_path INFOPATH /usr/local/info
+append_if_not_in_path INFOPATH $HOME/info
+append_if_not_in_path INFOPATH $HOME/share/info
 
 export PAGER='less'
 export LESS='-Ri'
@@ -138,7 +152,7 @@ export GNUTERM=x11
 # Go (installed by homebrew)
 if which go &>/dev/null; then
 	export GOROOT=/usr/local/opt/go/libexec
-	export PATH=$PATH:$GOROOT/bin
+	append_if_not_in_path PATH $GOROOT/bin
 fi
 
 # Completions (homebrew)
