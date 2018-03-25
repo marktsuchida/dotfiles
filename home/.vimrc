@@ -142,6 +142,9 @@ au BufNewFile,BufRead *.i set filetype=swig
 " Go
 au BufRead,BufNewFile *.go set filetype=go
 
+" YAML
+au FileType yaml Twotab
+
 
 """ Tag List plugin settings
 
