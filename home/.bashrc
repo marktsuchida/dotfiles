@@ -148,7 +148,7 @@ export GROOVY_HOME=/usr/local/opt/groovy/libexec
 export CLICOLOR=1
 
 # see also .gnuplot
-export GNUTERM=x11
+export GNUTERM=qt
 
 # Go (installed by homebrew)
 if which go &>/dev/null; then
