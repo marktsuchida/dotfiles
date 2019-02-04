@@ -117,6 +117,11 @@ if s:is_osx
 
 endif " s:is_osx
 
+""" Preview in Marked 2 on OS X
+if s:is_osx
+  command Marked !open -a Marked\ 2.app '%:p'
+endif " s:is_osx
+
 
 """ Filetype-specific settings
 
