@@ -150,6 +150,14 @@ au BufRead,BufNewFile *.go set filetype=go
 " YAML
 au FileType yaml Twotab
 
+" BeanShell
+au BufRead,BufNewFile *.bsh set filetype=java
+au BufRead,BufNewFile *.bsh Realthreetab
+
+" TypeScript
+au BufRead,BufNewFile *.ts set filetype=javascript
+au BufRead,BufNewFile *.ts Twotab
+
 
 """ Tag List plugin settings
 
