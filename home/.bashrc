@@ -212,6 +212,10 @@ set-aws-profile() {
 	export AWS_SECRET_ACCESS_KEY="$(aws configure get aws_secret_access_key --profile $1)"
 }
 
+# Google Cloud Platform
+source ~/Developer/google-cloud-sdk/path.bash.inc
+source ~/Developer/google-cloud-sdk/completion.bash.inc
+
 # Gradle: use gradlew when present
 gradle() {
 	local gradlew=
