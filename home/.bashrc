@@ -156,6 +156,9 @@ if which go &>/dev/null; then
 	append_if_not_in_path PATH $GOROOT/bin
 fi
 
+# Rust (installed by homebrew's rustup-init)
+append_if_not_in_path PATH $HOME/.cargo/bin
+
 # Completions (homebrew)
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
