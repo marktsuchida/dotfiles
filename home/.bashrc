@@ -53,6 +53,7 @@ alias '..'='cd ..'
 alias '...'='cd ../..'
 alias '....'='cd ../../..'
 alias '.....'='cd ../../../..'
+alias tree='tree -I "*~"'
 
 alias octave='octave -q'
 alias bc='bc -lq'
