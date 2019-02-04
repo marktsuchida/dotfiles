@@ -182,13 +182,19 @@ aws_profile() {
 	[ -n "$AWS_PROFILE" ] && echo " aws:$AWS_PROFILE"
 }
 
+# Show GCP project -- but too slow!
+gcp_project() {
+	which gcloud &>/dev/null || return
+	local project=$(gcloud config get-value project 2>/dev/null)
+	[ -n "$project" ] && echo " gcp:$project"
+}
+
 # Show kubectl context in prompt
 kubectl_context() {
 	which kubectl &>/dev/null || return
 	local context=$(kubectl config current-context 2>/dev/null)
-	# Would be nice to hide "k8s:minikube" when minikube is not running,
-	# but 'minikube status' is too slow to run for every prompt.
-	[ -n "$context" ] && echo " k8s:$context"
+	# Remove GKE prefix (fragile)
+	[ -n "$context" ] && echo " k8s:${context##*_}"
 }
 
 # Minikube completions
