@@ -234,6 +234,11 @@ gradle() {
 	$gradlew "$@"
 }
 
+# Node version manager
+export NVM_DIR=$HOME/.nvm
+[ -s $NVM_DIR/nvm.sh ] && . $NVM_DIR/nvm.sh
+[ -s $NVM_DIR/bash_completion ] && . $NVM_DIR/bash_completion
+
 # Define homeshick command
 source $HOME/.homesick/repos/homeshick/homeshick.sh
 source $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
