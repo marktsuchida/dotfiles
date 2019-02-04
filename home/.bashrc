@@ -242,3 +242,6 @@ export NVM_DIR=$HOME/.nvm
 # Define homeshick command
 source $HOME/.homesick/repos/homeshick/homeshick.sh
 source $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
+
+# Visual Studio Code 'code' command
+append_if_not_in_path PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
