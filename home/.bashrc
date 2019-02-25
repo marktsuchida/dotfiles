@@ -108,15 +108,11 @@ nkfless()
 
 ### Environmental variables for programs
 
-for year in 2012 2013 2014 2015 2016; do
-	if test -d "/usr/local/texlive/$year/texmf-dist"; then
-		texlive="/usr/local/texlive/$year"
-		break
-	fi
-done
-if test -n "$texlive"; then
-	prepend_if_not_in_path MANPATH "$texlive/texmf-dist/doc/man"
-	prepend_if_not_in_path INFOPATH "$texlive/texmf-dist/doc/info"
+# MacTeX
+if test "$is_darwin" = yes; then
+	prepend_if_not_in_path PATH /Library/TeX/texbin
+	prepend_if_not_in_path MANPATH /Library/TeX/Documentation/texmf-doc/man
+	prepend_if_not_in_path INFOPATH /Library/TeX/Documentation/texmf-doc/info
 fi
 
 prepend_if_not_in_path MANPATH /usr/local/share/man
