@@ -155,8 +155,20 @@ fi
 # Rust (installed by homebrew's rustup-init)
 append_if_not_in_path PATH $HOME/.cargo/bin
 
+source_if_file() {
+	test -f $1 && source $1
+}
+
 # Completions (homebrew)
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+if [ -f /usr/local/etc/bash_completion ]; then
+	# Older Homebrew versions
+	source /usr/local/etc/bash_completion
+elif which brew &>/dev/null; then
+	for cmpl in /usr/local/etc/bash_completion.d/*; do
+		source_if_file $cmpl
+	done
+	source_if_file /usr/local/etc/profile.d/bash_completion.sh
+fi
 
 # Git prompt if available
 function_declared() {
@@ -194,7 +206,7 @@ kubectl_context() {
 }
 
 # Minikube completions
-which minikube &>/dev/null && [ -f ~/.minikube-completion ] && . ~/.minikube-completion
+which minikube &>/dev/null && source_if_file ~/.minikube-completion
 
 # Homebrew
 export HOMEBREW_GITHUB_API_TOKEN=7a561f18bd27910766a3e349713aab284eea2436
@@ -208,13 +220,9 @@ set-aws-profile() {
 	export AWS_SECRET_ACCESS_KEY="$(aws configure get aws_secret_access_key --profile $1)"
 }
 
-source-if-exists() {
-	test -f $1 && source $1
-}
-
 # Google Cloud Platform
-source-if-exists ~/Developer/google-cloud-sdk/path.bash.inc
-source-if-exists ~/Developer/google-cloud-sdk/completion.bash.inc
+source_if_file ~/Developer/google-cloud-sdk/path.bash.inc
+source_if_file ~/Developer/google-cloud-sdk/completion.bash.inc
 
 # Gradle: use gradlew when present
 gradle() {
@@ -236,12 +244,12 @@ gradle() {
 
 # Node version manager
 export NVM_DIR=$HOME/.nvm
-[ -s $NVM_DIR/nvm.sh ] && . $NVM_DIR/nvm.sh
-[ -s $NVM_DIR/bash_completion ] && . $NVM_DIR/bash_completion
+source_if_file $NVM_DIR/nvm.sh
+source_if_file $NVM_DIR/bash_completion
 
 # Define homeshick command
-source-if-exists $HOME/.homesick/repos/homeshick/homeshick.sh
-source-if-exists $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
+source_if_file $HOME/.homesick/repos/homeshick/homeshick.sh
+source_if_file $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
 
 # Visual Studio Code 'code' command
 append_if_not_in_path PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
