@@ -1,3 +1,9 @@
+; French spacing
+(setq sentence-end-double-space nil)
+
+; No menu bar
+(menu-bar-mode -1)
+
 ; Emacs package system (non-stable channel)
 (require 'package)
 (add-to-list 'package-archives `("melpa" . "https://melpa.org/packages/"))
