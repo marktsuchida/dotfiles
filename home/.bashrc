@@ -59,9 +59,9 @@ alias octave='octave -q'
 alias bc='bc -lq'
 alias w3m='w3m -v'
 alias hd="od -A x -t x1c"
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias grep='ggrep --color=auto'
+alias fgrep='gfgrep --color=auto'
+alias egrep='gegrep --color=auto'
 alias rule='printf \\033[33m◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼\\033[39m\\n'
 
 if test "$is_darwin" = yes; then
