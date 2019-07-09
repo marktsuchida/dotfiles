@@ -208,9 +208,13 @@ set-aws-profile() {
 	export AWS_SECRET_ACCESS_KEY="$(aws configure get aws_secret_access_key --profile $1)"
 }
 
+source-if-exists() {
+	test -f $1 && source $1
+}
+
 # Google Cloud Platform
-source ~/Developer/google-cloud-sdk/path.bash.inc
-source ~/Developer/google-cloud-sdk/completion.bash.inc
+source-if-exists ~/Developer/google-cloud-sdk/path.bash.inc
+source-if-exists ~/Developer/google-cloud-sdk/completion.bash.inc
 
 # Gradle: use gradlew when present
 gradle() {
@@ -236,8 +240,8 @@ export NVM_DIR=$HOME/.nvm
 [ -s $NVM_DIR/bash_completion ] && . $NVM_DIR/bash_completion
 
 # Define homeshick command
-source $HOME/.homesick/repos/homeshick/homeshick.sh
-source $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
+source-if-exists $HOME/.homesick/repos/homeshick/homeshick.sh
+source-if-exists $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
 
 # Visual Studio Code 'code' command
 append_if_not_in_path PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
