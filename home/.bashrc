@@ -108,7 +108,7 @@ shopt -s checkwinsize extglob histappend
 
 ### Shell aliases
 
-alias ls='ls -wF'
+alias lf='ls -wF'
 alias ll='ls -wlFh'
 alias la='ls -waF'
 alias lal='ls -wlaFh'
