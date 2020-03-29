@@ -155,6 +155,8 @@ fi
 # Homeshick
 source_if_file $HOME/.homesick/repos/homeshick/homeshick.sh
 source_if_file $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
+function_declared homeshick && homeshick refresh -q 2
+function_declared homeshick || echo "homeshick missing"
 
 
 # Gradle: use gradlew when present
