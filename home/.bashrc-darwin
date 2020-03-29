@@ -58,12 +58,6 @@ prepend_if_not_in_path MANPATH /Library/TeX/Documentation/texmf-doc/man
 prepend_if_not_in_path INFOPATH /Library/TeX/Documentation/texmf-doc/info
 
 
-# Homebrew
-if [ -x $(command -v brew) ]; then
-	export HOMEBREW_GITHUB_API_TOKEN=93fa12b3f00fd179c3c3d99fd68e9bd7e5fb6c6c
-fi
-
-
 # Visual Studio Code 'code' command
 append_if_not_in_path PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
