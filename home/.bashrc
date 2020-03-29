@@ -85,6 +85,10 @@ nonzero_return() { # Show nonzero return in prompt
 safe_git_ps1() {
 	function_declared __git_ps1 && __git_ps1 " (%s)"
 }
+GIT_PS1_SHOWDIRTYSTATE=1 # * or +
+GIT_PS1_SHOWSTASHSTATE=1 # $
+GIT_PS1_SHOWUNTRACKEDFILES=1 # %
+GIT_PS1_SHOWUPSTREAM=auto # < > <> or =
 
 case $(uname) in
 	Darwin) pscolor=2;; # green
