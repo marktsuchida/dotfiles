@@ -24,6 +24,8 @@ fi
 # Actual configuration follows
 #
 
+# Note: use 'bash -ic "set -ex; source ~/.bashrc"' to debug.
+
 
 ### Internal functions
 
