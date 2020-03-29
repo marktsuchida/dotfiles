@@ -100,6 +100,7 @@ GIT_PS1_SHOWDIRTYSTATE=1 # * or +
 GIT_PS1_SHOWSTASHSTATE=1 # $
 GIT_PS1_SHOWUNTRACKEDFILES=1 # %
 GIT_PS1_SHOWUPSTREAM=auto # < > <> or =
+GIT_PS1_STATESEPARATOR= # No inconsistent space
 
 case $(uname) in
 	Darwin) pscolor=2 # green
