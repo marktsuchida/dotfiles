@@ -86,16 +86,22 @@ safe_git_ps1() {
 	function_declared __git_ps1 && __git_ps1 " (%s)"
 }
 
+case $(uname) in
+	Darwin) pscolor=2;; # green
+	Linux) pscolor=3;; # yellow
+	*) pscolor=4;; # blue
+esac
+
 ps1=$(ps_esc "[1;31;47m")'$(nonzero_return)'$(ps_esc "[m")
-ps1+=$(ps_esc "[1;42m")'[\u@\h \w]'$(ps_esc "[m")
-ps1+=$(ps_esc "[32m")'$(safe_git_ps1)'$(ps_esc "[m")
+ps1+=$(ps_esc "[1;4${pscolor}m")'[\u@\h \w]'$(ps_esc "[m")
+ps1+=$(ps_esc "[3${pscolor}m")'$(safe_git_ps1)'$(ps_esc "[m")
 ps1+='\n'
-ps1+=$(ps_esc "[1;32m")'\! $'$(ps_esc "[m")
+ps1+=$(ps_esc "[1;3${pscolor}m")'\! $'$(ps_esc "[m")
 ps1+=' '
 
 PS1="$ps1"
 
-PS2=$(ps_esc "[1;42m")'>'$(ps_esc "[m")' '
+PS2=$(ps_esc "[1;4${pscolor}m")'>'$(ps_esc "[m")' '
 
 
 ### Other bash options
