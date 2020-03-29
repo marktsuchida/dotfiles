@@ -175,6 +175,10 @@ gradle() {
 	if [ -z "$gradlew" ]; then
 		gradlew=$(which gradle)
 	fi
+	if [ -z "$gradlew" ]; then
+		echo "neither gradlew nor gradle found"
+		return 1
+	fi
 	echo "[$gradlew]"
 	$gradlew "$@"
 }
