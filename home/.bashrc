@@ -91,9 +91,15 @@ GIT_PS1_SHOWUNTRACKEDFILES=1 # %
 GIT_PS1_SHOWUPSTREAM=auto # < > <> or =
 
 case $(uname) in
-	Darwin) pscolor=2;; # green
-	Linux) pscolor=3;; # yellow
-	*) pscolor=4;; # blue
+	Darwin) pscolor=2 # green
+		[ -n "$TMUX" ] && tmux set-option status-style fg=black,bg=green
+		;;
+	Linux) pscolor=3 # yellow
+		[ -n "$TMUX" ] && tmux set-option status-style fg=black,bg=yellow
+		;;
+	*) pscolor=4 # blue
+		[ -n "$TMUX" ] && tmux set-option status-style bg=blue
+		;;
 esac
 
 ps1=$(ps_esc "[1;31;47m")'$(nonzero_return)'$(ps_esc "[m")
