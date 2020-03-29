@@ -71,6 +71,15 @@ export VISUAL=vim
 export CLICOLOR=1 # Colors for 'ls'
 
 
+### Bash options
+
+FIGNORE='~'
+HISTCONTROL=ignoreboth # Ignore duplicates and lines starting with space
+HISTSIZE=1000
+HISTFILESIZE=2000
+shopt -s checkwinsize extglob histappend
+
+
 ### Prompts
 
 ps_esc() {
@@ -92,13 +101,16 @@ GIT_PS1_SHOWUPSTREAM=auto # < > <> or =
 
 case $(uname) in
 	Darwin) pscolor=2 # green
-		[ -n "$TMUX" ] && tmux set-option status-style fg=black,bg=green
+		tmuxstatusstyle=fg=black,bg=green
+		tmuxpaneactiveborderstyle=fg=green
 		;;
 	Linux) pscolor=3 # yellow
-		[ -n "$TMUX" ] && tmux set-option status-style fg=black,bg=yellow
+		tmuxstatusstyle=fg=black,bg=yellow
+		tmuxpaneactiveborderstyle=fg=yellow
 		;;
 	*) pscolor=4 # blue
-		[ -n "$TMUX" ] && tmux set-option status-style bg=blue
+		tmuxstatusstyle=bg=blue
+		tmuxpaneactiveborderstyle=fg=blue
 		;;
 esac
 
@@ -114,13 +126,16 @@ PS1="$ps1"
 PS2=$(ps_esc "[1;4${pscolor}m")'>'$(ps_esc "[m")' '
 
 
-### Other bash options
+### Tmux options
+# We cannot set these in .tmux.conf, because we may not yet have a session.
 
-FIGNORE='~'
-HISTCONTROL=ignoreboth # Ignore duplicates and lines starting with space
-HISTSIZE=1000
-HISTFILESIZE=2000
-shopt -s checkwinsize extglob histappend
+if [ -n "$TMUX" ]; then
+	tmux set-option status-style $tmuxstatusstyle
+	tmux set-option pane-active-border-style $tmuxpaneactiveborderstyle
+
+	tmux set-option pane-border-status top
+	tmux set-option pane-border-format '[#{pane_index}: #{pane_current_command} #{pane_width}x#{pane_height}] #{pane_mode}'
+fi
 
 
 ### Shell aliases
