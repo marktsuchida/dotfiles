@@ -37,6 +37,7 @@ append_if_not_in_path() {
 
 source_if_file() {
 	[ -s $1 ] && source $1
+	return 0
 }
 
 function_declared() {
