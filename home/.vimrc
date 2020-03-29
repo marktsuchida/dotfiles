@@ -1,6 +1,7 @@
+"
 " First section of this file based on vimrc_example.vim
+"
 
-" Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
 
 set backup
@@ -14,29 +15,15 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
-" Only do this part when compiled with support for autocommands.
 if has("autocmd")
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-    au!
-
-    " For all text files set 'textwidth' to 78 characters.
-    autocmd FileType text setlocal textwidth=78
-  augroup END
+  autocmd FileType text setlocal textwidth=78
 else
   set autoindent
 endif " has("autocmd")
 
-" Add optional packages.
-"
-" The matchit plugin makes the % command work better, but it is not backwards
-" compatible.
-" The ! means the package won't be loaded right away but when plugins are
-" loaded during initialization.
 if has('syntax') && has('eval')
   packadd! matchit
 endif
-
 
 "
 " End of section based on the example .vimrc file
@@ -62,11 +49,15 @@ set encoding=utf-8
 set nojoinspaces
 set printoptions=paper:letter
 set cursorline
+set colorcolumn=81,133
+highlight ColorColumn term=bold ctermbg=4 guibg=darkgrey
 set list
 set listchars=trail:▫,tab:‣\ 
 
 
 """ Japanese input
+" fo m = word break at any character above 255
+" fo B = join lines without inserting space for any mb char
 command Jpn setlocal formatoptions+=mB nospell
 
 
@@ -117,6 +108,7 @@ if s:is_osx
 
 endif " s:is_osx
 
+
 """ Preview in Marked 2 on OS X
 if s:is_osx
   command Marked !open -a Marked\ 2.app '%:p'
@@ -157,11 +149,6 @@ au BufRead,BufNewFile *.bsh Realthreetab
 " TypeScript
 au BufRead,BufNewFile *.ts set filetype=javascript
 au BufRead,BufNewFile *.ts Twotab
-
-
-""" Tag List plugin settings
-
-let Tlist_Show_One_File = 1
 
 
 """ Simple text highlighting
