@@ -147,8 +147,8 @@ nkfless()
 export LESS='-Ri'
 export LESSCHARSET=utf-8
 if [ -x $(command -v source-highlight) ]; then
-	src_hilite_lesspipe="$(which src-hilite-lesspipe.sh)"
-	if test -x "$src_hilite_lesspipe"; then
+	src_hilite_lesspipe=$(command -v src-hilite-lesspipe.sh)
+	if [ -x $src_hilite_lesspipe ]; then
 		export LESSOPEN="| $src_hilite_lesspipe %s"
 	fi
 fi
