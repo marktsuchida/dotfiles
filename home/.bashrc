@@ -124,9 +124,6 @@ alias octave='octave -q'
 alias bc='bc -lq'
 alias w3m='w3m -v'
 alias hd="od -A x -t x1c"
-alias grep='ggrep --color=auto'
-alias fgrep='gfgrep --color=auto'
-alias egrep='gegrep --color=auto'
 
 alias rule='printf \\033[33m◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼\\033[39m\\n'
 
@@ -198,13 +195,21 @@ append_if_not_in_path PATH $HOME/.cargo/bin
 # OS-specific settings
 #
 
+os_guess=
 case `uname` in
-	*Darwin*) is_darwin=yes ;;
+	*Darwin*) os_guess=darwin;;
 esac
 
-if test "$is_darwin" = yes; then
-	source_if_file .bashrc-darwin
+if [ -f /etc/os-release ]; then
+	if grep -q 'ID_LIKE=debian' /etc/os-release; then
+		os_guess=debian-like
+	fi
 fi
+
+case $os_guess in
+	darwin) source_if_file .bashrc-darwin;;
+	debian-like) source_if_file .bashrc-debian;;
+esac
 
 
 #

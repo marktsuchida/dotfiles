@@ -2,6 +2,11 @@ ulimit -u 512 -n 1024
 
 
 ### Shell aliases
+if [ -x $(command -v ggrep) ]; then
+	alias grep='ggrep --color=auto'
+	alias fgrep='gfgrep --color=auto'
+	alias egrep='gegrep --color=auto'
+fi
 alias 'open.'='open .'
 alias Preview='open -a Preview'
 alias Skim='open -a Skim'
