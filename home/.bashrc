@@ -205,3 +205,9 @@ fi
 # Local settings
 #
 source_if_file .bashrc-local
+
+
+# Ignore any settings that various installers might "smartly" append.
+return
+
+# -- last line of intended content --
