@@ -1,0 +1,79 @@
+ulimit -u 512 -n 1024
+
+
+### Shell aliases
+alias 'open.'='open .'
+alias Preview='open -a Preview'
+alias Skim='open -a Skim'
+alias acroread='open -a "Adobe Reader.app"'
+alias chrome='open -a "Google Chrome.app"'
+alias pbcopy='reattach-to-user-namespace pbcopy'
+alias pbpaste='reattach-to-user-namespace pbpaste'
+alias pbclear='pbcopy < /dev/null'
+
+pbsort()
+{
+	reattach-to-user-namespace pbpaste | \
+		sort "$@" | reattach-to-user-namespace pbcopy
+}
+
+manskim()
+{
+	man -t "$@" | open -f -a Skim
+}
+
+manprev()
+{
+	man -t "$@" | open -f -a Preview
+}
+
+doi()
+{
+	open http://dx.doi.org/${1}
+}
+
+
+### Completions (homebrew)
+if [ -f /usr/local/etc/bash_completion ]; then
+	# Older Homebrew versions
+	source /usr/local/etc/bash_completion
+elif [ -x $(command -v brew) ]; then
+	for cmpl in /usr/local/etc/bash_completion.d/*; do
+		source_if_file $cmpl
+	done
+	source_if_file /usr/local/etc/profile.d/bash_completion.sh
+fi
+
+
+### Application setup
+
+# MacTeX
+prepend_if_not_in_path PATH /Library/TeX/texbin
+prepend_if_not_in_path MANPATH /Library/TeX/Documentation/texmf-doc/man
+prepend_if_not_in_path INFOPATH /Library/TeX/Documentation/texmf-doc/info
+
+
+# Homebrew
+if [ -x $(command -v brew) ]; then
+	export HOMEBREW_GITHUB_API_TOKEN=93fa12b3f00fd179c3c3d99fd68e9bd7e5fb6c6c
+fi
+
+
+# Visual Studio Code 'code' command
+append_if_not_in_path PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+
+# Google Cloud Platform
+source_if_file ~/Developer/google-cloud-sdk/path.bash.inc
+source_if_file ~/Developer/google-cloud-sdk/completion.bash.inc
+
+
+# Gnuplot
+export GNUTERM=qt
+
+
+# Go (Homebrew)
+if [ -x $(command -v go) ]; then
+	export GOROOT=/usr/local/opt/go/libexec
+	append_if_not_in_path PATH $GOROOT/bin
+fi

@@ -21,17 +21,11 @@ fi
 
 
 #
-# Now configure various settings
+# Actual configuration follows
 #
 
 
-case `uname` in
-	*Darwin*) is_darwin=yes ;;
-esac
-
-if test "$is_darwin" = yes; then
-	ulimit -u 512 -n 1024
-fi
+### Internal functions
 
 prepend_if_not_in_path() {
 	[[ ":${!1}:" == *":$2:"* ]] || export $1="$2:${!1}"
@@ -41,47 +35,89 @@ append_if_not_in_path() {
 	[[ ":${!1}:" == *":$2:"* ]] || export $1="${!1}:$2"
 }
 
+source_if_file() {
+	test -f $1 && source $1
+}
+
+function_declared() {
+	declare -F $1 >/dev/null
+	return $?
+}
+
+
+### Generic paths
+
 prepend_if_not_in_path PATH /usr/local/bin
 prepend_if_not_in_path PATH /opt/local/bin
 append_if_not_in_path PATH "$HOME/bin"
 
+prepend_if_not_in_path MANPATH /usr/local/share/man
+prepend_if_not_in_path MANPATH /usr/local/man
+append_if_not_in_path MANPATH $HOME/man
+append_if_not_in_path MANPATH $HOME/share/man
+
+prepend_if_not_in_path INFOPATH /usr/local/share/info
+prepend_if_not_in_path INFOPATH /usr/local/info
+append_if_not_in_path INFOPATH $HOME/info
+append_if_not_in_path INFOPATH $HOME/share/info
+
+
+### General environment
+
+export PAGER=less
+export EDITOR=vim
+export VISUAL=vim
+export CLICOLOR=1 # Colors for 'ls'
+
+
+### Prompts
+
 ps_esc() {
 	printf '\[\e'$1'\]'
 }
+
+nonzero_return() { # Show nonzero return in prompt
+	local retval=$?
+	[ "$retval" -ne 0 ] && echo $retval
+}
+
+safe_git_ps1() {
+	function_declared __git_ps1 && __git_ps1 " (%s)"
+}
+
 ps1=$(ps_esc "[1;31;47m")'$(nonzero_return)'$(ps_esc "[m")
 ps1+=$(ps_esc "[1;42m")'[\u@\h \w]'$(ps_esc "[m")
-ps1+=$(ps_esc "[32m")'$(safe_git_ps1)$(aws_profile)$(kubectl_context)'$(ps_esc "[m")
+ps1+=$(ps_esc "[32m")'$(safe_git_ps1)'$(ps_esc "[m")
 ps1+='\n'
 ps1+=$(ps_esc "[1;32m")'\! $'$(ps_esc "[m")
 ps1+=' '
-PS1="$ps1"
-PS2=$(ps_esc "[1;42m")'>'$(ps_esc "[m")' '
-FIGNORE='~'
 
+PS1="$ps1"
+
+PS2=$(ps_esc "[1;42m")'>'$(ps_esc "[m")' '
+
+
+### Other bash options
+
+FIGNORE='~'
 HISTFILESIZE=5000
 shopt -s extglob histappend
 
-### Hosts
 
-export MONTEVERDI=50.0.150.224
-
-### Have ssh-agent running
-
-eval `ssh-agent -s` >/dev/null
-
-### Aliases and functions
+### Shell aliases
 
 alias ls='ls -wF'
 alias ll='ls -wlFh'
 alias la='ls -waF'
 alias lal='ls -wlaFh'
 alias lsrecent='ls -wlFht | head'
+
 alias '..'='cd ..'
 alias '...'='cd ../..'
 alias '....'='cd ../../..'
 alias '.....'='cd ../../../..'
-alias tree='tree -I "*~"'
 
+alias tree='tree -I "*~"'
 alias octave='octave -q'
 alias bc='bc -lq'
 alias w3m='w3m -v'
@@ -89,39 +125,8 @@ alias hd="od -A x -t x1c"
 alias grep='ggrep --color=auto'
 alias fgrep='gfgrep --color=auto'
 alias egrep='gegrep --color=auto'
+
 alias rule='printf \\033[33m◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼\\033[39m\\n'
-
-if test "$is_darwin" = yes; then
-	alias 'open.'='open .'
-	alias Preview='open -a Preview'
-	alias Skim='open -a Skim'
-	alias acroread='open -a "Adobe Reader.app"'
-	alias chrome='open -a "Google Chrome.app"'
-	alias pbcopy='reattach-to-user-namespace pbcopy'
-	alias pbpaste='reattach-to-user-namespace pbpaste'
-	alias pbclear='pbcopy < /dev/null'
-
-	pbsort()
-	{
-		reattach-to-user-namespace pbpaste | \
-			sort "$@" | reattach-to-user-namespace pbcopy
-	}
-
-	manskim()
-	{
-		man -t "$@" | open -f -a Skim
-	}
-
-	manprev()
-	{
-		man -t "$@" | open -f -a Preview
-	}
-
-	doi()
-	{
-		open http://dx.doi.org/${1}
-	}
-fi
 
 asciidump()
 {
@@ -133,123 +138,24 @@ nkfless()
 	nkf -w ${1} | less
 }
 
-### Environmental variables for programs
 
-# MacTeX
-if test "$is_darwin" = yes; then
-	prepend_if_not_in_path PATH /Library/TeX/texbin
-	prepend_if_not_in_path MANPATH /Library/TeX/Documentation/texmf-doc/man
-	prepend_if_not_in_path INFOPATH /Library/TeX/Documentation/texmf-doc/info
-fi
+### Application setup
 
-prepend_if_not_in_path MANPATH /usr/local/share/man
-prepend_if_not_in_path MANPATH /usr/local/man
-append_if_not_in_path MANPATH $HOME/man
-append_if_not_in_path MANPATH $HOME/share/man
-prepend_if_not_in_path INFOPATH /usr/local/share/info
-prepend_if_not_in_path INFOPATH /usr/local/info
-append_if_not_in_path INFOPATH $HOME/info
-append_if_not_in_path INFOPATH $HOME/share/info
-
-export PAGER='less'
+# Less
 export LESS='-Ri'
 export LESSCHARSET=utf-8
-if test -n "$(which source-highlight)"; then
+if [ -x $(command -v source-highlight) ]; then
 	src_hilite_lesspipe="$(which src-hilite-lesspipe.sh)"
 	if test -x "$src_hilite_lesspipe"; then
 		export LESSOPEN="| $src_hilite_lesspipe %s"
 	fi
 fi
-export EDITOR=vim
-export VISUAL=vim
 
-export SCREENDIR=$HOME/.screen
 
-export GROOVY_HOME=/usr/local/opt/groovy/libexec
+# Homeshick
+source_if_file $HOME/.homesick/repos/homeshick/homeshick.sh
+source_if_file $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
 
-# Colors for 'ls'
-export CLICOLOR=1
-
-# see also .gnuplot
-export GNUTERM=qt
-
-# Go (installed by homebrew)
-if which go &>/dev/null; then
-	export GOROOT=/usr/local/opt/go/libexec
-	append_if_not_in_path PATH $GOROOT/bin
-fi
-
-# Rust (installed by homebrew's rustup-init)
-append_if_not_in_path PATH $HOME/.cargo/bin
-
-source_if_file() {
-	test -f $1 && source $1
-}
-
-# Completions (homebrew)
-if [ -f /usr/local/etc/bash_completion ]; then
-	# Older Homebrew versions
-	source /usr/local/etc/bash_completion
-elif which brew &>/dev/null; then
-	for cmpl in /usr/local/etc/bash_completion.d/*; do
-		source_if_file $cmpl
-	done
-	source_if_file /usr/local/etc/profile.d/bash_completion.sh
-fi
-
-# Git prompt if available
-function_declared() {
-	declare -F $1 >/dev/null
-	return $?
-}
-safe_git_ps1() {
-	function_declared __git_ps1 && __git_ps1 " (%s)"
-}
-
-# Show nonzero return in prompt
-nonzero_return() {
-	local retval=$?
-	[ "$retval" -ne 0 ] && echo $retval
-}
-
-# Show AWS profile
-aws_profile() {
-	[ -n "$AWS_PROFILE" ] && echo " aws:$AWS_PROFILE"
-}
-
-# Show GCP project -- but too slow!
-gcp_project() {
-	which gcloud &>/dev/null || return
-	local project=$(gcloud config get-value project 2>/dev/null)
-	[ -n "$project" ] && echo " gcp:$project"
-}
-
-# Show kubectl context in prompt
-kubectl_context() {
-	which kubectl &>/dev/null || return
-	local context=$(kubectl config current-context 2>/dev/null)
-	# Remove GKE prefix (fragile)
-	[ -n "$context" ] && echo " k8s:${context##*_}"
-}
-
-# Minikube completions
-which minikube &>/dev/null && source_if_file ~/.minikube-completion
-
-# Homebrew
-export HOMEBREW_GITHUB_API_TOKEN=7a561f18bd27910766a3e349713aab284eea2436
-
-# AWS
-set-aws-profile() {
-	# Fail early
-	aws configure get aws_access_key_id --profile $1 || return 1
-	export AWS_PROFILE="$1"
-	export AWS_ACCESS_KEY_ID="$(aws configure get aws_access_key_id --profile $1)"
-	export AWS_SECRET_ACCESS_KEY="$(aws configure get aws_secret_access_key --profile $1)"
-}
-
-# Google Cloud Platform
-source_if_file ~/Developer/google-cloud-sdk/path.bash.inc
-source_if_file ~/Developer/google-cloud-sdk/completion.bash.inc
 
 # Gradle: use gradlew when present
 gradle() {
@@ -269,14 +175,31 @@ gradle() {
 	$gradlew "$@"
 }
 
+
 # Node version manager
 export NVM_DIR=$HOME/.nvm
 source_if_file $NVM_DIR/nvm.sh
 source_if_file $NVM_DIR/bash_completion
 
-# Define homeshick command
-source_if_file $HOME/.homesick/repos/homeshick/homeshick.sh
-source_if_file $HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash
 
-# Visual Studio Code 'code' command
-append_if_not_in_path PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+# Rust
+append_if_not_in_path PATH $HOME/.cargo/bin
+
+
+#
+# OS-specific settings
+#
+
+case `uname` in
+	*Darwin*) is_darwin=yes ;;
+esac
+
+if test "$is_darwin" = yes; then
+	source_if_file .bashrc-darwin
+fi
+
+
+#
+# Local settings
+#
+source_if_file .bashrc-local
