@@ -100,8 +100,10 @@ PS2=$(ps_esc "[1;42m")'>'$(ps_esc "[m")' '
 ### Other bash options
 
 FIGNORE='~'
-HISTFILESIZE=5000
-shopt -s extglob histappend
+HISTCONTROL=ignoreboth # Ignore duplicates and lines starting with space
+HISTSIZE=1000
+HISTFILESIZE=2000
+shopt -s checkwinsize extglob histappend
 
 
 ### Shell aliases
