@@ -30,21 +30,21 @@ fi
 ### Internal functions
 
 prepend_if_not_in_path() {
-	if [ -d $2 ]; then
+	if [ -d "$2" ]; then
 		[[ ":${!1}:" == *":$2:"* ]] || export $1="$2:${!1}"
 	fi
 	return 0
 }
 
 append_if_not_in_path() {
-	if [ -d $2 ]; then
+	if [ -d "$2" ]; then
 		[[ ":${!1}:" == *":$2:"* ]] || export $1="${!1}:$2"
 	fi
 	return 0
 }
 
 source_if_file() {
-	[ -s $1 ] && source $1
+	[ -s "$1" ] && source "$1"
 	return 0
 }
 
