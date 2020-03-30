@@ -31,14 +31,22 @@ fi
 
 prepend_if_not_in_path() {
 	if [ -d "$2" ]; then
-		[[ ":${!1}:" == *":$2:"* ]] || export $1="$2:${!1}"
+		if [ -z "${!1}" ]; then
+			export $1="$2"
+		else
+			[[ ":${!1}:" == *":$2:"* ]] || export $1="$2:${!1}"
+		fi
 	fi
 	return 0
 }
 
 append_if_not_in_path() {
 	if [ -d "$2" ]; then
-		[[ ":${!1}:" == *":$2:"* ]] || export $1="${!1}:$2"
+		if [ -z "${!1}" ]; then
+			export $1="$2"
+		else
+			[[ ":${!1}:" == *":$2:"* ]] || export $1="${!1}:$2"
+		fi
 	fi
 	return 0
 }
