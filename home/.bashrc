@@ -240,6 +240,13 @@ source_if_file $NVM_DIR/bash_completion
 append_if_not_in_path PATH $HOME/.cargo/bin
 
 
+# Aliases to set get config
+# user.name is set in ~/.gitconfig
+# These are used to set email, which depends on repo.
+alias git-config-wisc='git config user.email matsuchida@wisc.edu'
+alias git-config-gmail='git config user.email marktsuchida@gmail.com'
+
+
 #
 # OS-specific settings
 #
