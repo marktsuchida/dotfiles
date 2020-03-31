@@ -53,8 +53,7 @@ fi
 ### Application setup
 
 # MacTeX
-prepend_if_not_in_path PATH /Library/TeX/texbin
-prepend_if_not_in_path MANPATH /Library/TeX/Documentation/texmf-doc/man
+# PATH and MANPATH are automatically added by system
 prepend_if_not_in_path INFOPATH /Library/TeX/Documentation/texmf-doc/info
 
 

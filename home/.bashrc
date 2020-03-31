@@ -68,11 +68,16 @@ prepend_if_not_in_path PATH /usr/local/bin
 prepend_if_not_in_path PATH /opt/local/bin
 append_if_not_in_path PATH "$HOME/bin"
 
+# The system may not set MANPATH, instead relying on a config file or a more
+# complex mechanism (macOS), so we need to initialize MANPATH before adding to
+# it.
+[ -x $(command -v man) ] && [ -z "$MANPATH" ] && export MANPATH="$(man -w)"
 prepend_if_not_in_path MANPATH /usr/local/share/man
 prepend_if_not_in_path MANPATH /usr/local/man
 append_if_not_in_path MANPATH $HOME/man
 append_if_not_in_path MANPATH $HOME/share/man
 
+prepend_if_not_in_path INFOPATH /usr/share/info # In case INFOPATH not set
 prepend_if_not_in_path INFOPATH /usr/local/share/info
 prepend_if_not_in_path INFOPATH /usr/local/info
 append_if_not_in_path INFOPATH $HOME/info
