@@ -195,7 +195,7 @@ nkfless()
 ### Application setup
 
 # Less
-export LESS='-Ri'
+export LESS='-XFRi'
 export LESSCHARSET=utf-8
 if [ -x $(command -v source-highlight) ]; then
 	src_hilite_lesspipe=$(command -v src-hilite-lesspipe.sh)
