@@ -65,6 +65,7 @@ function_declared() {
 ### Generic paths
 
 prepend_if_not_in_path PATH /usr/local/bin
+prepend_if_not_in_path PATH /usr/local/sbin
 prepend_if_not_in_path PATH /opt/local/bin
 append_if_not_in_path PATH "$HOME/bin"
 
