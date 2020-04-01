@@ -163,11 +163,10 @@ fi
 
 ### Shell aliases
 
-alias lf='ls -wF'
-alias ll='ls -wlFh'
-alias la='ls -waF'
-alias lal='ls -wlaFh'
-alias lsrecent='ls -wlFht | head'
+alias la='ls -a'
+alias ll='ls -lFh'
+alias lal='ls -laFh'
+alias lsrecent='ls -lFht | head'
 
 alias '..'='cd ..'
 alias '...'='cd ../..'
@@ -194,6 +193,12 @@ nkfless()
 
 
 ### Application setup
+
+# GNU ls
+if [ -x $(command -v dircolors) ]; then
+	eval $(dircolors --bourne-shell)
+fi
+
 
 # Less
 export LESS='-XFRi'
