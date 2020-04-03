@@ -99,7 +99,7 @@ FIGNORE='~'
 HISTCONTROL=ignoreboth # Ignore duplicates and lines starting with space
 HISTSIZE=1000
 HISTFILESIZE=2000
-shopt -s checkwinsize extglob histappend
+shopt -s checkwinsize globstar histappend
 
 
 ### Prompts
@@ -163,9 +163,9 @@ fi
 
 ### Shell aliases
 
-alias la='ls -a'
+alias la='ls -A'
 alias ll='ls -lFh'
-alias lal='ls -laFh'
+alias lal='ls -lAFh'
 alias lsrecent='ls -lFht | head'
 
 alias '..'='cd ..'
@@ -197,6 +197,7 @@ nkfless()
 # GNU ls
 if [ -x $(command -v dircolors) ]; then
 	eval $(dircolors --bourne-shell)
+	alias ls='ls --color=auto'
 fi
 
 
