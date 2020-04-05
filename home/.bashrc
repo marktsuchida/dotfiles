@@ -7,7 +7,7 @@ esac
 
 # Just start tmux if we are not already in tmux
 if [ -z "$TMUX" ]; then
-	if [ -x $(command -v tmux) ]; then
+	if [ -x "$(command -v tmux)" ]; then
 		export EDITOR=vi # Tell tmux to use vi-style keys
 		# Create a new session attached to the session group of the
 ‣       ‣       # 'main' session. The 'main' session is ensured to exist by
@@ -72,7 +72,7 @@ append_if_not_in_path PATH "$HOME/bin"
 # The system may not set MANPATH, instead relying on a config file or a more
 # complex mechanism (macOS), so we need to initialize MANPATH before adding to
 # it.
-[ -x $(command -v man) ] && [ -z "$MANPATH" ] && export MANPATH="$(man -w)"
+[ -x "$(command -v man)" ] && [ -z "$MANPATH" ] && export MANPATH="$(man -w)"
 prepend_if_not_in_path MANPATH /usr/local/share/man
 prepend_if_not_in_path MANPATH /usr/local/man
 append_if_not_in_path MANPATH $HOME/man
@@ -195,7 +195,7 @@ nkfless()
 ### Application setup
 
 # GNU ls
-if [ -x $(command -v dircolors) ]; then
+if [ -x "$(command -v dircolors)" ]; then
 	eval $(dircolors --bourne-shell)
 	alias ls='ls --color=auto'
 fi
@@ -204,7 +204,7 @@ fi
 # Less
 export LESS='-XFRi'
 export LESSCHARSET=utf-8
-if [ -x $(command -v source-highlight) ]; then
+if [ -x "$(command -v source-highlight)" ]; then
 	src_hilite_lesspipe=$(command -v src-hilite-lesspipe.sh)
 	if [ -x $src_hilite_lesspipe ]; then
 		export LESSOPEN="| $src_hilite_lesspipe %s"

@@ -2,7 +2,7 @@ ulimit -u 512 -n 1024
 
 
 ### Shell aliases
-if [ -x $(command -v ggrep) ]; then
+if [ -x "$(command -v ggrep)" ]; then
 	alias grep='ggrep --color=auto'
 	alias fgrep='gfgrep --color=auto'
 	alias egrep='gegrep --color=auto'
@@ -42,7 +42,7 @@ doi()
 if [ -f /usr/local/etc/bash_completion ]; then
 	# Older Homebrew versions
 	source /usr/local/etc/bash_completion
-elif [ -x $(command -v brew) ]; then
+elif [ -x "$(command -v brew)" ]; then
 	for cmpl in /usr/local/etc/bash_completion.d/*; do
 		source_if_file $cmpl
 	done
@@ -71,7 +71,7 @@ export GNUTERM=qt
 
 
 # Go (Homebrew)
-if [ -x $(command -v go) ]; then
+if [ -x "$(command -v go)" ]; then
 	export GOROOT=/usr/local/opt/go/libexec
 	append_if_not_in_path PATH $GOROOT/bin
 fi
