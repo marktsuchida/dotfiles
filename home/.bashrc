@@ -269,7 +269,8 @@ case `uname` in
 esac
 
 if [ -f /etc/os-release ]; then
-	if grep -q 'ID_LIKE=debian' /etc/os-release; then
+	if grep -q 'ID_LIKE=debian' /etc/os-release || \
+		grep -q 'ID=debian' /etc/os-release; then
 		os_guess=debian-like
 	fi
 fi
