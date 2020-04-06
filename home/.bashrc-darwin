@@ -39,15 +39,9 @@ doi()
 
 
 ### Completions (homebrew)
-if [ -f /usr/local/etc/bash_completion ]; then
-	# Older Homebrew versions
-	source /usr/local/etc/bash_completion
-elif [ -x "$(command -v brew)" ]; then
-	for cmpl in /usr/local/etc/bash_completion.d/*; do
-		source_if_file $cmpl
-	done
-	source_if_file /usr/local/etc/profile.d/bash_completion.sh
-fi
+# This should be sufficient for bash-completion@2 to load everything, including
+# the scripts installed in $BASH_COMPLETION_COMPAT_DIR.
+source_if_file /usr/local/etc/profile.d/bash_completion.sh
 
 
 ### Application setup
