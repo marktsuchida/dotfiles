@@ -110,7 +110,7 @@ ps_esc() {
 
 nonzero_return() { # Show nonzero return in prompt
 	local retval=$?
-	[ "$retval" -ne 0 ] && echo $retval
+	[ "$retval" -ne 0 ] && echo " $retval "
 }
 
 safe_git_ps1() {
