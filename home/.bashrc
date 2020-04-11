@@ -142,7 +142,7 @@ ps1+=$(ps_esc "[1;4${pscolor}m")'[\u@\h \w]'$(ps_esc "[m")
 ps1+=$(ps_esc "[3${pscolor}m")'$(safe_git_ps1)'$(ps_esc "[m")
 ps1+='\n'
 ps1+=$(ps_esc "[1;3${pscolor}m")'\! $'$(ps_esc "[m")
-ps1+=' '
+ps1+=' ' # nbsp for backward-searching
 
 PS1="$ps1"
 
