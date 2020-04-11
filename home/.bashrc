@@ -10,8 +10,8 @@ if [ -z "$TMUX" ]; then
 	if [ -x "$(command -v tmux)" ]; then
 		export EDITOR=vi # Tell tmux to use vi-style keys
 		# Create a new session attached to the session group of the
-‣       ‣       # 'main' session. The 'main' session is ensured to exist by
-‣       ‣       # being created in .tmux.conf. Then make sure the session
+		# 'main' session. The 'main' session is ensured to exist by
+		# being created in .tmux.conf. Then make sure the session
 		# created here is destroyed when the terminal is detached.
 		exec tmux new-session -t main \; set-option destroy-unattached
 	else
