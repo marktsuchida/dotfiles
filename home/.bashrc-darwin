@@ -69,3 +69,9 @@ if [ -x "$(command -v go)" ]; then
 	export GOROOT=/usr/local/opt/go/libexec
 	append_if_not_in_path PATH $GOROOT/bin
 fi
+
+
+# Groovy (Homebrew)
+if [ -x /usr/local/bin/groovysh ] && [ -d /usr/local/opt/groovy ]; then
+	export GROOVY_HOME=/usr/local/opt/groovy/libexec
+fi
