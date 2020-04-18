@@ -46,6 +46,12 @@ source_if_file /usr/local/etc/profile.d/bash_completion.sh
 
 ### Application setup
 
+# MacVim
+if [ -x /Applications/MacVim.app/Contents/bin/mvim ]; then
+	append_if_not_in_path PATH "/Applications/MacVim.app/Contents/bin"
+fi
+
+
 # MacTeX
 # PATH and MANPATH are automatically added by system
 prepend_if_not_in_path INFOPATH /Library/TeX/Documentation/texmf-doc/info
