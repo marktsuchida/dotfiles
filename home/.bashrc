@@ -149,15 +149,11 @@ PS1="$ps1"
 PS2=$(ps_esc "[1;4${pscolor}m")'>'$(ps_esc "[m")' '
 
 
-### Tmux options
-# We cannot set these in .tmux.conf, because we may not yet have a session.
+### Matching tmux colors
 
 if [ -n "$TMUX" ]; then
-	tmux set-option status-style $tmuxstatusstyle
-	tmux set-option pane-active-border-style $tmuxpaneactiveborderstyle
-
-	tmux set-option pane-border-status top
-	tmux set-option pane-border-format '[#{pane_index}: #{pane_current_command} #{pane_width}x#{pane_height}] #{pane_mode}'
+	tmux set-option -g status-style $tmuxstatusstyle
+	tmux set-option -g pane-active-border-style $tmuxpaneactiveborderstyle
 fi
 
 
