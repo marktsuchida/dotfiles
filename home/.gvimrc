@@ -4,3 +4,8 @@
 " executing 'colorscheme default' here results in something different.
 " See also :help macvim-colorscheme
 autocmd GUIEnter * colorscheme default
+
+if has("gui_macvim")
+  " One point larger than default
+  set guifont=Menlo-Regular:h12
+endif
