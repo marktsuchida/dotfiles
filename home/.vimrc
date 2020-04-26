@@ -56,6 +56,11 @@ set listchars=trail:▫,tab:‣\
 set scrolloff=1
 
 
+""" Man command
+runtime! ftplugin/man.vim
+set keywordprg=:Man
+
+
 """ Japanese input
 " fo m = word break at any character above 255
 " fo B = join lines without inserting space for any mb char
