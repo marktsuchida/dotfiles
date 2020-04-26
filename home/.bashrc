@@ -5,8 +5,8 @@ case $- in
 esac
 
 
-# Just start tmux if we are not already in tmux
-if [ -z "$TMUX" ]; then
+# Start tmux if we are not already in tmux and not in an editor buffer
+if [ -z "$TMUX" ] && [ -z "$VIM_TERMINAL" ] && [ -z "$INSIDE_EMACS" ]; then
 	if [ -x "$(command -v tmux)" ]; then
 		export EDITOR=vi # Tell tmux to use vi-style keys
 		# Create a new session attached to the session group of the
