@@ -53,6 +53,7 @@ set colorcolumn=81,133
 highlight ColorColumn term=bold ctermbg=4 guibg=darkgrey
 set list
 set listchars=trail:▫,tab:‣\ 
+set scrolloff=1
 
 
 """ Japanese input
