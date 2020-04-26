@@ -9,3 +9,5 @@ if has("gui_macvim")
   " One point larger than default
   set guifont=Menlo-Regular:h12
 endif
+
+set guicursor+=a:blinkon0
