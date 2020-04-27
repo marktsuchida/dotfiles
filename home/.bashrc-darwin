@@ -1,6 +1,13 @@
 ulimit -u 512 -n 1024
 
 
+# macOS /etc/bashrc sources /etc/bashrc_Apple_Terminal, which sets up
+# PROMPT_COMMAND to tell Terminal.app the cwd. I don't need this.
+if [ "$PROMPT_COMMAND" = "update_terminal_cwd" ]; then
+	unset PROMPT_COMMAND
+fi
+
+
 ### Shell aliases
 if [ -x "$(command -v ggrep)" ]; then
 	alias grep='ggrep --color=auto'
