@@ -14,3 +14,5 @@
 	dirstat = files,0
 [alias]
 	graph = log --graph
+[hub]
+	protocol = https
