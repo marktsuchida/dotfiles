@@ -68,7 +68,7 @@ command Jpn setlocal formatoptions+=mB nospell
 
 
 """ Edit text without newlines
-command FlowText setlocal spell wrap linebreak nocursorline nolist textwidth=0 wrapmargin=0
+command FlowText setlocal spell wrap linebreak nocursorline nolist textwidth=0 wrapmargin=0 colorcolumn=
 
 
 """ Tab setting commands
