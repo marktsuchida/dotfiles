@@ -15,3 +15,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+
+# Where pip installs user-installed scripts
+append_if_not_in_path "$HOME/.local/bin"
