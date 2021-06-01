@@ -16,3 +16,5 @@
 	graph = log --graph
 [hub]
 	protocol = https
+[init]
+	defaultBranch = main
