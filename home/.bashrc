@@ -248,6 +248,12 @@ source_if_file $NVM_DIR/bash_completion
 append_if_not_in_path PATH $HOME/.cargo/bin
 
 
+# Ruby rbenv
+if [ -x "$(command -v rbenv)" ]; then
+	eval "$(rbenv init -)"
+fi
+
+
 # Aliases to set get config
 # user.name is set in ~/.gitconfig
 # These are used to set email, which depends on repo.
