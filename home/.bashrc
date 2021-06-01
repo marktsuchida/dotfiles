@@ -253,6 +253,11 @@ if [ -x "$(command -v rbenv)" ]; then
 	eval "$(rbenv init -)"
 fi
 
+if [ -x "$(command -v gem)" ]; then
+	gem_user_install=$(gem env |grep 'USER INSTALLATION DIRECTORY: ' |awk '{ print $NF }')
+	append_if_not_in_path PATH $gem_user_install/bin
+fi
+
 
 # Aliases to set get config
 # user.name is set in ~/.gitconfig
