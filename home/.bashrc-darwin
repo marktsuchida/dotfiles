@@ -84,6 +84,10 @@ if [ -x "$(command -v go)" ]; then
 fi
 
 
+# Java
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+
+
 # Groovy (Homebrew)
 if [ -x /usr/local/bin/groovysh ] && [ -d /usr/local/opt/groovy ]; then
 	export GROOVY_HOME=/usr/local/opt/groovy/libexec
