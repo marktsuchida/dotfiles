@@ -86,6 +86,7 @@ fi
 
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+append_if_not_in_path MANPATH "$JAVA_HOME/man"
 
 
 # Groovy (Homebrew)
