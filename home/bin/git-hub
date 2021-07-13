@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Git subcommand to open GitHub for the current repo.
+# Uses the default remote, or the one given as the first parameter.
+
+if [ -z "$1" ]; then
+	rbranch=$(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD))
+	remote=$(dirname $rbranch)
+else
+	remote="$1"
+fi
+
+giturl=$(git config --get remote.${remote}.url)
+
+huburl=${giturl%.git}
+
+if [ -x "$(command -v xdg-open)" ]; then
+	xdg-open $huburl
+elif [ -x "$(command -v start)" ]; then
+	start $huburl
+else
+	open $huburl
+fi
