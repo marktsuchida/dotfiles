@@ -123,22 +123,25 @@ GIT_PS1_SHOWUPSTREAM=auto # < > <> or =
 GIT_PS1_STATESEPARATOR= # No inconsistent space
 
 case $(uname) in
-	Darwin) pscolor=2 # green
+	Darwin)	pscolor=2 # green
+		pstextcolor=7 # white
 		tmuxstatusstyle=fg=black,bg=green
 		tmuxpaneactiveborderstyle=fg=green
 		;;
-	Linux) pscolor=3 # yellow
+	Linux)	pscolor=3 # yellow
+		pstextcolor=0 # black
 		tmuxstatusstyle=fg=black,bg=yellow
 		tmuxpaneactiveborderstyle=fg=yellow
 		;;
-	*) pscolor=4 # blue
+	*)	pscolor=4 # blue
+		pstextcolor=7 # white
 		tmuxstatusstyle=bg=blue
 		tmuxpaneactiveborderstyle=fg=blue
 		;;
 esac
 
 ps1=$(ps_esc "[1;31;47m")'$(nonzero_return)'$(ps_esc "[m")
-ps1+=$(ps_esc "[1;4${pscolor}m")'[\u@\h \w]'$(ps_esc "[m")
+ps1+=$(ps_esc "[1;4${pscolor};3${pstextcolor}m")'[\u@\h \w]'$(ps_esc "[m")
 ps1+=$(ps_esc "[3${pscolor}m")'$(safe_git_ps1)'$(ps_esc "[m")
 ps1+='\n'
 ps1+=$(ps_esc "[1;3${pscolor}m")'\! $'$(ps_esc "[m")
@@ -146,7 +149,7 @@ ps1+=' ' # nbsp for backward-searching
 
 PS1="$ps1"
 
-PS2=$(ps_esc "[1;4${pscolor}m")'>'$(ps_esc "[m")' '
+PS2=$(ps_esc "[1;4${pscolor};3${pstextcolor}m")'>'$(ps_esc "[m")' '
 
 
 ### Matching tmux colors
