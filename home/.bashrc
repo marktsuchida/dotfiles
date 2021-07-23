@@ -265,8 +265,8 @@ fi
 # Aliases to set get config
 # user.name is set in ~/.gitconfig
 # These are used to set email, which depends on repo.
-alias git-config-wisc='git config user.email matsuchida@wisc.edu'
-alias git-config-gmail='git config user.email marktsuchida@gmail.com'
+alias git-config-wisc='git config user.email matsuchida@wisc.edu && git config user.name "Mark A. Tsuchida"'
+alias git-config-gmail='git config user.email marktsuchida@gmail.com && git config user.name "Mark A. Tsuchida"'
 
 
 #
