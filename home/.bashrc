@@ -248,7 +248,9 @@ source_if_file $NVM_DIR/bash_completion
 
 
 # Rust
-append_if_not_in_path PATH $HOME/.cargo/bin
+if [ -f "$HOME/.cargo/env" ]; then
+	source "$HOME/.cargo/env"
+fi
 
 
 # Ruby rbenv
