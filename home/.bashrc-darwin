@@ -1,5 +1,8 @@
 ulimit -u 512 -n 1024
 
+# Hide the "default is zsh" notice
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 
 # macOS /etc/bashrc sources /etc/bashrc_Apple_Terminal, which sets up
 # PROMPT_COMMAND to tell Terminal.app the cwd. I don't need this.
