@@ -89,7 +89,9 @@ fi
 
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-append_if_not_in_path MANPATH "$JAVA_HOME/man"
+if [ ! -z "$JAVA_HOME" ]; then
+	append_if_not_in_path MANPATH "$JAVA_HOME/man"
+fi
 
 
 # Groovy (Homebrew)
