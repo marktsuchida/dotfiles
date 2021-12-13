@@ -48,10 +48,16 @@ doi()
 }
 
 
-### Completions (homebrew)
+### Homebrew
+if [ -x /opt/homebrew/bin/brew ]; then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# Bash completions
 # This should be sufficient for bash-completion@2 to load everything, including
 # the scripts installed in $BASH_COMPLETION_COMPAT_DIR.
 source_if_file /usr/local/etc/profile.d/bash_completion.sh
+source_if_file /opt/homebrew/etc/profile.d/bash_completion.sh
 
 
 ### Application setup

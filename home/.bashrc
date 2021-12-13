@@ -7,6 +7,11 @@ esac
 
 # Start tmux if we are not already in tmux and not in an editor buffer
 if [ -z "$TMUX" ] && [ -z "$VIM_TERMINAL" ] && [ -z "$INSIDE_EMACS" ]; then
+	if [ -x /opt/homebrew/bin/tmux ]; then
+		if [ ! -x "$(command -v tmux)" ]; then
+			PATH="/opt/homebrew/bin:$PATH"
+		fi
+	fi
 	if [ -x "$(command -v tmux)" ]; then
 		export EDITOR=vi # Tell tmux to use vi-style keys
 		# Create a new session attached to the session group of the
@@ -64,6 +69,7 @@ function_declared() {
 
 ### Generic paths
 
+prepend_if_not_in_path PATH /opt/homebrew/bin
 prepend_if_not_in_path PATH /usr/local/bin
 prepend_if_not_in_path PATH /usr/local/sbin
 prepend_if_not_in_path PATH /opt/local/bin
@@ -73,11 +79,13 @@ append_if_not_in_path PATH "$HOME/bin"
 # complex mechanism (macOS), so we need to initialize MANPATH before adding to
 # it.
 [ -x "$(command -v man)" ] && [ -z "$MANPATH" ] && export MANPATH="$(man -w)"
+prepend_if_not_in_path MANPATH /opt/homebrew/share/man
 prepend_if_not_in_path MANPATH /usr/local/share/man
 prepend_if_not_in_path MANPATH /usr/local/man
 append_if_not_in_path MANPATH $HOME/man
 append_if_not_in_path MANPATH $HOME/share/man
 
+prepend_if_not_in_path INFOPATH /opt/homebrew/share/info
 prepend_if_not_in_path INFOPATH /usr/share/info # In case INFOPATH not set
 prepend_if_not_in_path INFOPATH /usr/local/share/info
 prepend_if_not_in_path INFOPATH /usr/local/info
