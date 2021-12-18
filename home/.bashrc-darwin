@@ -78,8 +78,8 @@ append_if_not_in_path PATH "/Applications/Visual Studio Code.app/Contents/Resour
 
 
 # Google Cloud Platform
-source_if_file ~/Developer/google-cloud-sdk/path.bash.inc
-source_if_file ~/Developer/google-cloud-sdk/completion.bash.inc
+source_if_file ~/google-cloud-sdk/path.bash.inc
+source_if_file ~/google-cloud-sdk/completion.bash.inc
 
 
 # Gnuplot
