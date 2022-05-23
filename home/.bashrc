@@ -6,7 +6,9 @@ esac
 
 
 # Start tmux if we are not already in tmux and not in an editor buffer
-if [ -z "$TMUX" ] && [ -z "$VIM_TERMINAL" ] && [ -z "$INSIDE_EMACS" ]; then
+if [ -z "$TMUX" ] && [ -z "$VIM_TERMINAL" ] && [ -z "$INSIDE_EMACS" ] &&
+	[ -z "$INTELLIJ_ENVIRONMENT_READER" ]
+then
 	if [ -x /opt/homebrew/bin/tmux ]; then
 		if [ ! -x "$(command -v tmux)" ]; then
 			PATH="/opt/homebrew/bin:$PATH"
