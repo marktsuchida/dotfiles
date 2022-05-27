@@ -112,54 +112,79 @@ HISTFILESIZE=2000
 shopt -s checkwinsize globstar histappend
 
 
+### Prompt and tmux colors
+
+ansi_black=0
+ansi_red=1
+ansi_green=2
+ansi_yellow=3
+ansi_blue=4
+ansi_magenta=5
+ansi_cyan=6
+ansi_white=7
+
+case $(uname) in
+	Darwin)	ps_color=$ansi_green
+		ps_htext=$ansi_white
+		tmuxstatusstyle=fg=black,bg=green
+		tmuxpaneactiveborderstyle=fg=green
+		;;
+	Linux)	ps_color=$ansi_yellow
+		ps_htext=$ansi_black
+		tmuxstatusstyle=fg=black,bg=yellow
+		tmuxpaneactiveborderstyle=fg=yellow
+		;;
+	*)	ps_color=$ansi_blue
+		ps_htext=$ansi_white
+		tmuxstatusstyle=bg=blue
+		tmuxpaneactiveborderstyle=fg=blue
+		;;
+esac
+
+
 ### Prompts
 
 ps_esc() {
 	printf '\[\e'$1'\]'
 }
 
-nonzero_return() { # Show nonzero return in prompt
+ps_sgr() { # ANSI "select graphic rendition"
+	ps_esc "[$1m"
+}
+
+ansi_fg=3
+ansi_bg=4
+ansi_bold=1
+ps_sgr_reset=$(ps_sgr)
+ps_highlighted=$(ps_sgr "$ansi_bold;$ansi_bg$ps_color;$ansi_fg$ps_htext")
+ps_boldcolored=$(ps_sgr "$ansi_bold;$ansi_fg$ps_color")
+ps_colored=$(ps_sgr "$ansi_fg$ps_color")
+ps_alert=$(ps_sgr "$ansi_bold;$ansi_bg$ansi_white;$ansi_fg$ansi_red")
+
+PS1=
+PS1+=$ps_alert'$(ps_print_retval)'$ps_sgr_reset
+PS1+=$ps_highlighted'[\u@\h \w]'$ps_sgr_reset
+PS1+=$ps_colored'$(ps_git_safe)'$ps_sgr_reset
+PS1+='\n'
+PS1+=$ps_boldcolored'\! $'$ps_sgr_reset
+PS1+=' ' # nbsp for backward-searching
+
+PS2=$ps_highlighted'>'$ps_sgr_reset' '
+
+ps_print_retval() {
 	local retval=$?
 	[ "$retval" -ne 0 ] && echo " $retval "
 }
 
-safe_git_ps1() {
+ps_git_safe() {
 	function_declared __git_ps1 && __git_ps1 " (%s)"
 }
+
 GIT_PS1_SHOWDIRTYSTATE=1 # * or +
 GIT_PS1_SHOWSTASHSTATE=1 # $
 GIT_PS1_SHOWUNTRACKEDFILES=1 # %
 GIT_PS1_SHOWUPSTREAM=auto # < > <> or =
 GIT_PS1_STATESEPARATOR= # No inconsistent space
-
-case $(uname) in
-	Darwin)	pscolor=2 # green
-		pstextcolor=7 # white
-		tmuxstatusstyle=fg=black,bg=green
-		tmuxpaneactiveborderstyle=fg=green
-		;;
-	Linux)	pscolor=3 # yellow
-		pstextcolor=0 # black
-		tmuxstatusstyle=fg=black,bg=yellow
-		tmuxpaneactiveborderstyle=fg=yellow
-		;;
-	*)	pscolor=4 # blue
-		pstextcolor=7 # white
-		tmuxstatusstyle=bg=blue
-		tmuxpaneactiveborderstyle=fg=blue
-		;;
-esac
-
-ps1=$(ps_esc "[1;31;47m")'$(nonzero_return)'$(ps_esc "[m")
-ps1+=$(ps_esc "[1;4${pscolor};3${pstextcolor}m")'[\u@\h \w]'$(ps_esc "[m")
-ps1+=$(ps_esc "[3${pscolor}m")'$(safe_git_ps1)'$(ps_esc "[m")
-ps1+='\n'
-ps1+=$(ps_esc "[1;3${pscolor}m")'\! $'$(ps_esc "[m")
-ps1+=' ' # nbsp for backward-searching
-
-PS1="$ps1"
-
-PS2=$(ps_esc "[1;4${pscolor};3${pstextcolor}m")'>'$(ps_esc "[m")' '
 
 
 ### Matching tmux colors
