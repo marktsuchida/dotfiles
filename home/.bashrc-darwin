@@ -18,8 +18,8 @@ if [ -x "$(command -v ggrep)" ]; then
 	alias egrep='gegrep --color=auto'
 fi
 alias 'open.'='open .'
-alias Preview='open -a Preview'
-alias Skim='open -a Skim'
+alias preview='open -a Preview'
+alias skim='open -a Skim'
 alias acroread='open -a "Adobe Reader.app"'
 alias chrome='open -a "Google Chrome.app"'
 alias pbcopy='reattach-to-user-namespace pbcopy'
