@@ -213,7 +213,7 @@ alias bc='bc -lq'
 alias w3m='w3m -v'
 alias hd="od -A x -t x1c"
 
-alias rule='printf \\033[33m◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼\\033[39m\\n'
+alias rule='printf \\033[33m◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼◼\\033[m\\n'
 
 asciidump()
 {
