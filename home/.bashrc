@@ -71,6 +71,7 @@ function_declared() {
 
 ### Generic paths
 
+prepend_if_not_in_path PATH "$HOME/.local/bin"  # E.g., pipx
 prepend_if_not_in_path PATH /opt/homebrew/bin
 prepend_if_not_in_path PATH /usr/local/bin
 prepend_if_not_in_path PATH /usr/local/sbin
