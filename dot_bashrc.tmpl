@@ -302,22 +302,13 @@ alias git-config-gmail='git config user.email marktsuchida@gmail.com && git conf
 # OS-specific settings
 #
 
-os_guess=
-case `uname` in
-	*Darwin*) os_guess=darwin;;
-esac
-
-if [ -f /etc/os-release ]; then
-	if grep -q 'ID_LIKE=debian' /etc/os-release || \
-		grep -q 'ID=debian' /etc/os-release; then
-		os_guess=debian-like
-	fi
-fi
-
-case $os_guess in
-	darwin) source_if_file .bashrc-darwin;;
-	debian-like) source_if_file .bashrc-debian;;
-esac
+{{ if eq .chezmoi.os "darwin" }}
+{{ template "bashrc-darwin.tmpl" . }}
+{{- else if (and (eq .chezmoi.os "linux")
+                 (or (eq .chezmoi.osRelease.idLike "debian")
+                     (eq .chezmoi.osRelease.id "debian"))) }}
+{{ template "bashrc-debian.tmpl" . }}
+{{- end }}
 
 
 #
