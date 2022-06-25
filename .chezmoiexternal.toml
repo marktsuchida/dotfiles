@@ -1,0 +1,5 @@
+[".vim/pack/local/start/editorconfig-vim"]
+type = "archive"
+url = "https://github.com/editorconfig/editorconfig-vim/archive/refs/tags/v1.1.1.tar.gz"
+exact = true
+stripComponents = 1
