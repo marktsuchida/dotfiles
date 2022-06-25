@@ -104,3 +104,9 @@ fi
 if [ -x /usr/local/bin/groovysh ] && [ -d /usr/local/opt/groovy ]; then
 	export GROOVY_HOME=/usr/local/opt/groovy/libexec
 fi
+
+
+# Python
+# Homebrew still installs 'python3'
+alias python=python3
+# Leave out 'alias pip=pip3' because global pip should be used with caution
