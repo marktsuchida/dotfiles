@@ -1,2 +1,4 @@
+{{- if eq .chezmoi.os "windows" }}
 mklink _vimrc .vimrc
 mklink _gvimrc .gvimrc
+{{- end }}

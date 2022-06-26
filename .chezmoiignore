@@ -1,6 +1,3 @@
 *~
 .*.swp
 .DS_Store
-{{ if ne .chezmoi.os "windows" }}
-*.cmd
-{{ end }}
