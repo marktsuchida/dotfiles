@@ -11,12 +11,16 @@
 {{- end }}
 [merge]
 	conflictstyle = diff3
+	tool = vimdiff
+	guitool = gvimdiff
 [push]
 	default = simple
 [pull]
 	ff = only
 [diff]
 	dirstat = files,0
+	tool = vimdiff
+	guitool = gvimdiff
 [alias]
 	graph = log --graph
 [hub]
