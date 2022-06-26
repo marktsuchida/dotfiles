@@ -165,9 +165,9 @@ ps_colored=$(ps_sgr "$ansi_fg$ps_color")
 ps_alert=$(ps_sgr "$ansi_bold;$ansi_bg$ansi_white;$ansi_fg$ansi_red")
 
 PS1=
-PS1+=$ps_alert'$(ps_print_retval)'$ps_sgr_reset
+PS1+=$ps_alert'`ps_print_retval`'$ps_sgr_reset
 PS1+=$ps_highlighted'[\u@\h \w]'$ps_sgr_reset
-PS1+=$ps_colored'$(ps_git_safe)'$ps_sgr_reset
+PS1+=$ps_colored'`ps_git_safe`'$ps_sgr_reset
 PS1+='\n'
 PS1+=$ps_boldcolored'\! $'$ps_sgr_reset
 PS1+=' ' # nbsp for backward-searching
