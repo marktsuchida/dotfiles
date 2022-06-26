@@ -18,3 +18,5 @@
 	protocol = https
 [init]
 	defaultBranch = main
+[user]
+	useConfigOnly = true
