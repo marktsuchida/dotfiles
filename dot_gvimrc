@@ -3,11 +3,21 @@
 " MacVim seems to set up color schemes after gvimrc is sourced, so just
 " executing 'colorscheme default' here results in something different.
 " See also :help macvim-colorscheme
-autocmd GUIEnter * colorscheme default
+" The following also works for non-mac.
+" The colorscheme 'torte' is similar to 'default' but with a black background;
+" it does not interfere with macOS dark mode.
+autocmd GUIEnter * colorscheme torte
+
+" No toolbar
+set guioptions-=T
+
+set guicursor+=a:blinkon0
+
+set lines=64 columns=80
 
 if has("gui_macvim")
   " One point larger than default
   set guifont=Menlo-Regular:h12
+elseif has("gui_win32")
+  set guifont=Consolas:h9
 endif
-
-set guicursor+=a:blinkon0
