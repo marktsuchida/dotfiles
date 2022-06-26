@@ -1,0 +1,10 @@
+{{- /* vim: set filetype=bash: */ -}}
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+if [ $TERM_PROGRAM = mintty ]; then
+	alias python='winpty python.exe'
+	alias ipython='winpty ipython.exe'
+fi
