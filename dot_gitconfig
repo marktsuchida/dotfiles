@@ -18,3 +18,5 @@
 	defaultBranch = main
 [user]
 	useConfigOnly = true
+[rebase]
+	autosquash = true
