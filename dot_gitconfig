@@ -1,7 +1,5 @@
 [color]
-	diff = auto
-	status = auto
-	branch = auto
+	ui = auto
 [credential]
 	helper = cache --timeout=7200
 [merge]
