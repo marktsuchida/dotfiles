@@ -2,12 +2,10 @@
 [color]
 	ui = auto
 [credential]
-{{- if eq .chezmoi.os "windows" }}
+{{- if (or (eq .chezmoi.os "darwin")
+           (eq .chezmoi.os "windows")) }}
 	helper =
 	helper = manager-core
-{{- else if eq .chezmoi.os "darwin" }}
-	helper =
-	helper = /usr/local/share/gcm-core/git-credential-manager-core
 {{- else }}
 	helper = cache --timeout=7200
 {{- end }}
