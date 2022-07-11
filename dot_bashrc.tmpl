@@ -205,10 +205,16 @@ alias ll='ls -lFh'
 alias lal='ls -lAFh'
 alias lsrecent='ls -lFht | head'
 
-alias '..'='cd ..'
-alias '...'='cd ../..'
-alias '....'='cd ../../..'
-alias '.....'='cd ../../../..'
+# alias ..='cd ..'; alias ...='cd ../..'; etc.
+alias_name=..
+alias_target='cd ..'
+for ((i=1;i<=10;i++)); do
+	alias $alias_name="$alias_target"
+	alias_name=$alias_name.
+	alias_target="$alias_target/.."
+done
+unset alias_target
+unset alias_name
 
 alias tree='tree -I "*~"'
 alias octave='octave -q'
