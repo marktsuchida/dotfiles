@@ -55,6 +55,11 @@ set list
 set listchars=trail:▫,tab:‣\ 
 set scrolloff=1
 
+" Avoid .sw?, *~, .*.un~ scattered everywhere.
+set directory=~/.cache/vim-backups//,.
+set backupdir=~/.cache/vim-backups//,.
+set undodir=~/.cache/vim-backups/undo//,.
+
 
 """ Man command
 runtime! ftplugin/man.vim
