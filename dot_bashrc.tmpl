@@ -351,6 +351,7 @@ venv() {
 	if [ ! -d ./venv ]; then
 		echo 'Creating venv...'
 		python -m venv venv
+		echo '*' >venv/.gitignore
 	fi
 	venv-activate
 }
