@@ -335,6 +335,26 @@ alias git-config-gmail='git config user.email marktsuchida@gmail.com && git conf
 #
 source_if_file .bashrc-local
 
+#
+# Further settings that depend on OS/local settings
+#
+
+# Python
+
+{{ if eq .chezmoi.os "windows" }}
+alias venv-activate='source ./venv/Scripts/activate'
+{{- else }}
+alias venv-activate='source ./venv/bin/activate'
+{{- end }}
+
+venv() {
+	if [ ! -d ./venv ]; then
+		echo 'Creating venv...'
+		python -m venv venv
+	fi
+	venv-activate
+}
+
 
 # Ignore any settings that various installers might "smartly" append.
 return
