@@ -5,7 +5,12 @@
 
 if [ -z "$1" ]; then
 	rbranch=$(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD))
-	remote=$(dirname $rbranch)
+	if [ -z "$rbranch" ]; then
+		echo "Cannot determine remote from HEAD; trying 'origin'"
+		remote=origin
+	else
+		remote=$(dirname $rbranch)
+	fi
 else
 	remote="$1"
 fi
