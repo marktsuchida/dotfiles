@@ -109,10 +109,12 @@ export CLICOLOR=1 # Colors for 'ls'
 ### Bash options
 
 FIGNORE='~'
-HISTCONTROL=ignoreboth # Ignore duplicates and lines starting with space
-HISTSIZE=999
-HISTFILESIZE=999
-shopt -s autocd checkwinsize globstar histappend
+HISTCONTROL=ignorespace:ignoredups
+HISTSIZE=501
+shopt -s checkjobs checkwinsize
+shopt -s failglob globstar
+shopt -s histappend lithist
+shopt -s progcomp_alias
 
 
 ### Prompt and tmux colors
