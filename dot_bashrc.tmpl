@@ -112,7 +112,8 @@ FIGNORE='~'
 HISTCONTROL=ignorespace:ignoredups
 HISTSIZE=501
 shopt -s checkjobs checkwinsize
-shopt -s failglob globstar
+# I like 'failglob', but it can interfere with third party scripts (Ubuntu)
+shopt -s globstar
 shopt -s histappend lithist
 shopt -s progcomp_alias
 
