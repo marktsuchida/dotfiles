@@ -4,10 +4,10 @@
 unbind-key i
 bind-key i select-pane -t :.-
 
-# Reverse search to the nbsp contained in $PS1
+# Reverse search to the U+00a0 NO-BREAK SPACE contained in $PS1
 bind-key P copy-mode\;\
 	send-keys -X start-of-line\;\
-	send-keys -X search-backward " "
+	send-keys -X search-backward-text "\u00a0"
 
 set-option -g default-terminal "screen-256color"
 
