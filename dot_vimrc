@@ -93,21 +93,6 @@ command Realeighttab setlocal tabstop=8 shiftwidth=8 noexpandtab
 command HyphenatedKeywords setlocal iskeyword=@,48-57,_,-,192-255
 
 
-""" OS X copy & paste
-if s:is_osx
-
-  command -range Copy <line1>,<line2>w !/usr/local/bin/reattach-to-user-namespace pbcopy
-  command Paste call OSXPaste()
-  function OSXPaste()
-    let oldpaste=&paste
-    r !/usr/local/bin/reattach-to-user-namespace pbpaste
-    let &paste=oldpaste
-    unlet oldpaste
-  endfunction
-
-endif " s:is_osx
-
-
 """ Print to Preview on OS X
 if s:is_osx
 

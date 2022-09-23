@@ -30,13 +30,8 @@ if-shell '[ -x /usr/local/bin/bash ]' {
 }
 
 # macOS pasteboard integration
-#
-# https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard
-# However, we do not need to start bash inside `reattach-to-user-namespace -l`,
-# because `set-option -g default-shell` already starts bash as a login shell.
-#
 unbind-key -T copy-mode-vi Enter
-bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
 
 {{- end }}
 
