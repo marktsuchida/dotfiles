@@ -34,6 +34,15 @@ pbsort()
 		sort "$@" | reattach-to-user-namespace pbcopy
 }
 
+vimpb()
+{
+	tmpfile=$(mktemp /tmp/vimpb-XXXXXX)
+	pbpaste >$tmpfile
+	vim $tmpfile
+	pbcopy <$tmpfile
+	rm -f $tmpfile
+}
+
 manskim()
 {
 	man -t "$@" | open -f -a Skim
