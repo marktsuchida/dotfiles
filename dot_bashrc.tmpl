@@ -313,8 +313,10 @@ if [ -x "$HOME/miniconda3/bin/conda" ]; then
 fi
 
 
-# Aliases for Java tools via cjdk (requires cjdk on PATH)
-alias japicmp='cjdk --jdk temurin-jre exec -- java -jar $(cjdk cache-file https://repo1.maven.org/maven2/com/github/siom79/japicmp/japicmp/0.16.0/japicmp-0.16.0-jar-with-dependencies.jar japicmp-0.16.0-jar-with-dependencies.jar)'
+# Aliases for Java tools via cjdk
+alias cjdk='pipx run cjdk'
+JAPICMP_VERSION=0.17.1
+alias japicmp='cjdk --jdk temurin-jre exec -- java -jar $(cjdk cache-file https://repo1.maven.org/maven2/com/github/siom79/japicmp/japicmp/${JAPICMP_VERSION}/japicmp-${JAPICMP_VERSION}-jar-with-dependencies.jar japicmp-${JAPICMP_VERSION}-jar-with-dependencies.jar)'
 
 
 # Aliases to set git config
