@@ -5,7 +5,7 @@
 {{- if (or (eq .chezmoi.os "darwin")
            (eq .chezmoi.os "windows")) }}
 	helper =
-	helper = manager-core
+	helper = manager
 {{- else }}
 	helper = cache --timeout=7200
 {{- end }}
