@@ -1,2 +1,2 @@
 #!/bin/bash
-git ls-tree HEAD -r --name-only |entr "$@"
+git ls-files |entr "$@"
