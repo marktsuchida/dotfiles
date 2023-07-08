@@ -19,9 +19,16 @@
 	ff = only
 [diff]
 	dirstat = files,0
-	tool = vimdiff
+	tool = difftastic
 	guitool = gvimdiff
+[difftool]
+	prompt = false
+[difftool "difftastic"]
+	cmd = difft --display=inline --syntax-highlight=off "$LOCAL" "$REMOTE"
+[pager]
+	difftool = true
 [alias]
+	dft = difftool
 	graph = log --graph
 [hub]
 	protocol = https
