@@ -120,6 +120,9 @@ au FileType xml syntax on
 let g:xml_syntax_folding=1
 au FileType xml setlocal foldmethod=syntax
 
+" Markdown
+au FileType markdown Twotab
+
 " Vim script
 au FileType vim Twotab
 
