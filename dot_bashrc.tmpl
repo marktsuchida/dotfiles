@@ -81,9 +81,13 @@ prepend_if_not_in_path PATH /opt/local/bin
 append_if_not_in_path PATH "$HOME/bin"
 
 # The system may not set MANPATH, instead relying on a config file or a more
-# complex mechanism (macOS), so we need to initialize MANPATH before adding to
-# it.
-[ -x "$(command -v man)" ] && [ -z "$MANPATH" ] && export MANPATH="$(man -w)"
+# complex mechanism, so we need to initialize MANPATH before adding to it (or
+# so it was with past macOS). macOS 14.2 prints a message for 'man -w', so hide
+# it; this version of macOS appears to use the standard man paths even if they
+# are not in MANPATH, so the fact that the stdout of 'man -w' is empty does not
+# matter.
+[ -x "$(command -v man)" ] && [ -z "$MANPATH" ] && \
+	export MANPATH="$(man -w 2>/dev/null)"
 prepend_if_not_in_path MANPATH /usr/local/share/man
 prepend_if_not_in_path MANPATH /usr/local/man
 append_if_not_in_path MANPATH $HOME/man
