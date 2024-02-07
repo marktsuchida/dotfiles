@@ -37,6 +37,7 @@ bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
 
 {{- end }}
 
-# Ensure that session 'main' always exists. This command will fail if 'main'
-# already exists, but silently, since it is the last command in the file.
-new-session -d -s main
+# Ensure that session 'M' always exists. This command will fail if 'M' already
+# exists, but silently, since it is the last command in the file. The short
+# name 'M' is chosen to occupy the minimal amount of space in the status line.
+new-session -d -s M
