@@ -17,6 +17,7 @@ endif
 
 if has("autocmd")
   autocmd FileType text setlocal textwidth=78
+  autocmd BufReadCmd *.jar,*.whl call zip#Browse(expand("<amatch>"))
 else
   set autoindent
 endif " has("autocmd")
