@@ -1,0 +1,13 @@
+#!/usr/bin/osascript
+
+tell application "Google Chrome"
+    repeat with theWindow in (get windows)
+        repeat with theTab in (get tabs of theWindow)
+            set theURL to URL of theTab
+            if theURL starts with "http://localhost:" or ¬
+               theURL starts with "file:" then
+                reload theTab
+            end if
+        end repeat
+    end repeat
+end tell
