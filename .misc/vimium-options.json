@@ -1,0 +1,62 @@
+{
+  "keyMappings": "",
+  "settingsVersion": "2.1.2",
+  "exclusionRules": [
+    {
+      "passKeys": "",
+      "pattern": "http*://github.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://airtable.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://www.youtube.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://my.1password.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://console.cloud.google.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://ssh.cloud.google.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https://remotedesktop.google.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "http*://mail.google.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://calendar.google.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://docs.google.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://gather.town/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://godbolt.org/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://compiler-explorer.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://quick-bench.com/*"
+    }
+  ]
+}
