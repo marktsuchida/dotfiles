@@ -32,8 +32,17 @@ if-shell '[ -x /usr/local/bin/bash ]' {
 }
 
 # macOS pasteboard integration
+# TODO Replace with "set-option -s copy-command 'pbcopy'" (see below) after
+# testing.
 unbind-key -T copy-mode-vi Enter
 bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
+
+{{- else if eq .chezmoi.os "linux" }}
+
+if-shell '[ -x "$(command -v xsel)" ]' {
+	# Requires tmux 3.2
+	set-option -s copy-command 'xsel -i'  # PRIMARY, not CLIPBOARD
+}
 
 {{- end }}
 
