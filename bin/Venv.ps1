@@ -1,3 +1,4 @@
+# See also the bash function version in .bashrc
 if (-Not (Test-Path -Path 'venv' -PathType Container)) {
 	Write-Output 'Creating venv...'
 	python -m venv venv

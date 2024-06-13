@@ -374,17 +374,16 @@ alias venv-activate='source ./venv/Scripts/activate'
 alias venv-activate='source ./venv/bin/activate'
 {{- end }}
 
+# See also the PowerShell version bin/Venv.ps1
 venv() {
-	local did_create=
 	if [ ! -d ./venv ]; then
 		echo 'Creating venv...'
 		python -m venv venv
 		echo '*' >venv/.gitignore
-		did_create=1
-	fi
-	venv-activate
-	if [ ! -z $did_create ]; then
+		venv-activate
 		python -m pip install --upgrade pip setuptools
+	else
+		venv-activate
 	fi
 }
 
