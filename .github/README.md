@@ -2,18 +2,25 @@
 
 Setting up with [chezmoi](https://www.chezmoi.io/):
 
-1. [Install](https://www.chezmoi.io/install/) chezmoi.
+1. On Windows, make sure symbolic links are enabled. To do so without enabling
+   Developer Mode, open **Local Group Policy Editor** and add my username to
+   `Computer Configuration` > `Windows Settings` > `Security Settings` > `Local
+   Policies` > `User Rights Assignment` > `Create symbolic links`.
 
-    - macOS: Homebrew
-    - Ubuntu: Snap
-    - Windows: Chocolatey
+2. [Install](https://www.chezmoi.io/install/) chezmoi.
 
-2. `chezmoi init https://github.com/marktsuchida/dotfiles.git`
+    - macOS: `brew install chezmoi`
+    - Ubuntu: `sudo snap install chezmoi --classic`
+    - Windows: `choco install chezmoi` (TBD: `winget install twpayne.chezmoi`)
 
-Or, on machines where I use SSH for Git:
+On machines where I use a Git credential manager:
 
-1. `ssh-keygen -t ed25519 -a 100`
+3. `chezmoi init --apply marktsuchida` (uses HTTPS)
 
-2. Add `~/.ssh/id_ed25519.pub` to GitHub.
+On machines where I use SSH for Git:
 
-3. `chezmoi init git@github.com:marktsuchida/dotfiles.git`
+3. `ssh-keygen -t ed25519 -a 100` (with passphrase)
+
+4. Add `~/.ssh/id_ed25519.pub` to GitHub.
+
+5. `chezmoi init --apply --ssh marktsuchida`
