@@ -338,8 +338,11 @@ alias japicmp='cjdk --jdk temurin-jre exec -- java -jar $(cjdk cache-file https:
 
 
 # Aliases to set git config
-alias git-config-wisc='git config user.email matsuchida@wisc.edu && git config user.name "Mark A. Tsuchida"'
-alias git-config-gmail='git config user.email marktsuchida@gmail.com && git config user.name "Mark A. Tsuchida"'
+rot13() {
+	echo $1 |tr 'A-Za-z' 'N-ZA-Mn-za-m'
+}
+alias git-config-wisc='git config user.email $(rot13 zngfhpuvqn@jvfp.rqh) && git config user.name "Mark A. Tsuchida"'
+alias git-config-gmail='git config user.email $(rot13 znexgfhpuvqn@tznvy.pbz) && git config user.name "Mark A. Tsuchida"'
 
 
 #
