@@ -169,3 +169,19 @@ iabbrev umgr Micro-Manager
 iabbrev hcw Hardware Configuration Wizard
 iabbrev dpb Device Property Browser
 iabbrev probrep Problem Report (Help Menu)
+
+""" SKK (eskk.vim)
+let g:eskk#directory = "~/.skk"
+let g:eskk#dictionary = {
+      \ 'path': "~/.skk/my_jisyo",
+      \ 'sorted': 1,
+      \ 'encoding': 'utf-8',
+      \ }
+let g:eskk#large_dictionary = {
+      \ 'path': "~/.skk/SKK-JISYO.L",
+      \ 'sorted': 1,
+      \ 'encoding': 'euc-jp',
+      \ }
+let g:eskk#enable_completion = 0  " No neocomplete
+let g:eskk#egg_like_newline = 1
+let g:eskk#keep_state = 1

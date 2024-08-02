@@ -3,3 +3,9 @@ type = "archive"
 url = "https://github.com/editorconfig/editorconfig-vim/archive/e014708e917b457e8f6c57f357d55dd3826880d4.zip"
 exact = true
 stripComponents = 1
+
+[".vim/pack/local/start/eskk.vim"]
+type = "archive"
+url = "https://github.com/vim-skk/eskk.vim/archive/e530575790cca5d6603b8ab984298459ecf3c0c0.zip"
+exact = true
+stripComponents = 1
