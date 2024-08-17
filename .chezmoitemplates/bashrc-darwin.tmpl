@@ -48,6 +48,16 @@ doi()
 	open http://dx.doi.org/${1}
 }
 
+# Capture QR code (or any barcode) from selection and print content to stdout.
+qrcapture()
+{
+	tmpdir=$(mktemp -d /tmp/capture-qr-XXXXXX)
+	qrpng=$tmpdir/qr.png
+	screencapture -i $qrpng
+	zbarimg -q --raw $qrpng
+	rm -rf $tmpdir
+}
+
 
 ### Homebrew
 if [ -x /opt/homebrew/bin/brew ]; then
