@@ -58,6 +58,19 @@ qrcapture()
 	rm -rf $tmpdir
 }
 
+# Similar, but OCR by Tesseract; pass any args (such as '-l jpn') to tesseract.
+ocrcapture()
+{
+	tmpdir=$(mktemp -d /tmp/capture-ocr-XXXXXX)
+	screencapture -i $tmpdir/text.png
+	# Tesseract seems to erroneously access the file basename, so change to
+	# the directory.
+	pushd $tmpdir >/dev/null
+	tesseract text.png - "$@" quiet
+	popd >/dev/null
+	rm -rf $tmpdir
+}
+
 
 ### Homebrew
 if [ -x /opt/homebrew/bin/brew ]; then
