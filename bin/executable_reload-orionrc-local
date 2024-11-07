@@ -1,0 +1,14 @@
+#!/usr/bin/osascript
+
+tell application "Orion RC"
+    repeat with theWindow in every window
+        repeat with theTab in every tab of theWindow
+            set theURL to URL of theTab as text
+            if theURL starts with "http://localhost:" or ¬
+                theURL starts with "http://127.0.0.1:" or ¬
+                theURL starts with "file:" then
+                do JavaScript "location.reload()" in theTab
+            end if
+        end repeat
+    end repeat
+end tell
