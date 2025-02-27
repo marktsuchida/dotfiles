@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+if [ -z "$branch" -o "$branch" = "HEAD" ]; then
+	echo 'Not on any branch' >/dev/stderr
+	exit 1
+fi
+if [ "$branch" = "main" -o "$branch" = "master" ]; then
+	echo 'Must be run from a PR branch that has been merged' >/dev/stderr
+	exit 1
+fi
+
+git checkout main || git checkout master
+git pull --ff-only --prune
+git branch -d "$branch"
