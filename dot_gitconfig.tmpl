@@ -10,7 +10,7 @@
 	helper = cache --timeout=7200
 {{- end }}
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 	tool = vimdiff
 	guitool = gvimdiff
 [fetch]
@@ -20,7 +20,11 @@
 [pull]
 	ff = only
 [diff]
+	algorithm = histogram
+	colorMoved = plain
 	dirstat = files,0
+	mnemonicPrefix = true
+	renames = true
 	tool = difftastic
 	guitool = gvimdiff
 [difftool]
@@ -42,3 +46,8 @@
 	autosquash = true
 [rerere]
 	enabled = true
+	autoupdate = true
+[tag]
+	sort = version:refname
+[commit]
+	verbose = true
