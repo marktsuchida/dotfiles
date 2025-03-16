@@ -1,0 +1,9 @@
+! These are custom filters I use in Orion browser (among potentially others)
+! Syntax: https://help.adblockplus.org/hc/articles/360062733293
+
+! Presumably an example rule
+*/partner.ads.js
+! Google sign-in widget
+||accounts.google.com/gsi/iframe/$subdocument
+! chat bot widgets by Drift/Salesloft
+||js.driftt.com/$third-party
