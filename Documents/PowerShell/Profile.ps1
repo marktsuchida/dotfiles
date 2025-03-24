@@ -22,3 +22,10 @@ If (Test-Path "$HOME\miniforge3\Scripts\conda.exe") {
     (& "$HOME\miniforge3\Scripts\conda.exe" "shell.powershell" "hook") | Out-String | ?{$_} | Invoke-Expression
 }
 #endregion
+
+#region mamba initialize
+# !! Contents within this block are managed by 'mamba shell init' !!
+$Env:MAMBA_ROOT_PREFIX = "C:\Users\mark\AppData\Roaming\mamba"
+$Env:MAMBA_EXE = "C:\Users\mark\AppData\Local\micromamba\micromamba.exe"
+(& $Env:MAMBA_EXE 'shell' 'hook' -s 'powershell' -r $Env:MAMBA_ROOT_PREFIX) | Out-String | Invoke-Expression
+#endregion
