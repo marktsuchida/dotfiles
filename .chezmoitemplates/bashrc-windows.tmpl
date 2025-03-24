@@ -7,3 +7,10 @@ alias egrep='egrep --color=auto'
 alias py='winpty py.exe'
 alias python='winpty python.exe'
 alias ipython='winpty ipython.exe'
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'micromamba shell init' !!
+export MAMBA_EXE="$HOME/AppData/Local/micromamba/micromamba.exe";
+export MAMBA_ROOT_PREFIX="$HOME/AppData/Roaming/mamba";
+eval "$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX")"
+# <<< mamba initialize <<<
