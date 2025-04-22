@@ -16,6 +16,8 @@ function ........ { Set-Location '..\..\..\..\..\..\..' }
 function ......... { Set-Location '..\..\..\..\..\..\..\..' }
 function .......... { Set-Location '..\..\..\..\..\..\..\..\..' }
 
+function code. { & code . }
+
 #region conda initialize
 # !! Contents within this block are managed by 'conda init' !!
 If (Test-Path "$HOME\miniforge3\Scripts\conda.exe") {
