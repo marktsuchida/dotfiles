@@ -11,7 +11,7 @@ Setting up with [chezmoi](https://www.chezmoi.io/):
 
     - macOS: `brew install chezmoi`
     - Ubuntu: `sudo snap install chezmoi --classic`
-    - Windows: `choco install chezmoi` (TBD: `winget install twpayne.chezmoi`)
+    - Windows: `scoop install chezmoi`
 
 On machines where I use a Git credential manager:
 
