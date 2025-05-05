@@ -11,6 +11,7 @@ if [ "$branch" = "main" -o "$branch" = "master" ]; then
 	exit 1
 fi
 
+git fetch --prune  # In case branch upstream differs from main upstream
 git checkout main || git checkout master
 git pull --ff-only --prune
 git branch -d "$branch"
