@@ -24,6 +24,9 @@ alias acroread='open -a "Adobe Reader.app"'
 alias chrome='open -a "Google Chrome.app"'
 alias pbclear='pbcopy < /dev/null'
 
+alias xcode-select-xcode='sudo xcode-select -s /Applications/Xcode.app/Contents/Developer'
+alias xcode-select-command-line-tools='sudo xcode-select -s /Library/Developer/CommandLineTools'
+
 vimpb()
 {
 	tmpfile=$(mktemp /tmp/vimpb-XXXXXX)
