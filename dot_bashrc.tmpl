@@ -337,7 +337,7 @@ fi
 
 
 # Aliases for Java tools via cjdk
-alias cjdk='uvx cjdk'
+# (cjdk should be installed via `uv tool install cjdk`)
 JAPICMP_VERSION=0.17.1
 alias japicmp='cjdk --jdk temurin-jre exec -- java -jar $(cjdk cache-file https://repo1.maven.org/maven2/com/github/siom79/japicmp/japicmp/${JAPICMP_VERSION}/japicmp-${JAPICMP_VERSION}-jar-with-dependencies.jar japicmp-${JAPICMP_VERSION}-jar-with-dependencies.jar)'
 
