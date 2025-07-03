@@ -18,6 +18,10 @@ function .......... { Set-Location '..\..\..\..\..\..\..\..\..' }
 
 function code. { & code . }
 
+if ($Env:GIT_INSTALL_ROOT) {
+    Set-Alias -Name "less" -Value "$Env:GIT_INSTALL_ROOT\usr\bin\less.exe"
+}
+
 #region conda initialize
 # !! Contents within this block are managed by 'conda init' !!
 If (Test-Path "$HOME\miniforge3\Scripts\conda.exe") {
