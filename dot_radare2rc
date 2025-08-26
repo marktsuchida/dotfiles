@@ -1,1 +1,7 @@
-e bin.cache=true
+e asm.addr.focus = true
+e asm.bytes = false
+e asm.lines.right = true
+e asm.xrefs = false
+e bin.cache = true
+e cfg.fortunes.type = tips
+e stack.size = 256
