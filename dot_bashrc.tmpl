@@ -258,7 +258,7 @@ nkfless()
 # GNU ls
 if [ -x "$(command -v dircolors)" ]; then
 	eval $(dircolors --bourne-shell)
-	alias ls='ls --color=auto'
+	alias ls='command ls --color=auto'
 fi
 
 
