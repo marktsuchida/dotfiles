@@ -1,5 +1,6 @@
 e asm.addr.focus = true
-e asm.bytes = false
+e asm.bytes = true
+e asm.bytes.opcolor = true
 e asm.lines.right = true
 e asm.xrefs = false
 e bin.cache = true
