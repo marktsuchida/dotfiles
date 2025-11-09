@@ -1,0 +1,3 @@
+#!/bin/bash
+# For Claude Code 'Notification' hook
+jq -r '.message' | xargs -I {} osascript -e 'display notification "{}" with title "Claude Code"'
