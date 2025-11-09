@@ -74,6 +74,15 @@ ocrcapture()
 	rm -rf $tmpdir
 }
 
+# Show desktop notification
+notify()
+{
+	title="$1"
+	shift
+	message="$@"
+	osascript -e "display notification \"$message\" with title \"$title\""
+}
+
 
 ### Homebrew
 if [ -x /opt/homebrew/bin/brew ]; then
