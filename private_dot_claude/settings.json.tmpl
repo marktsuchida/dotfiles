@@ -1,6 +1,8 @@
 {
   "alwaysThinkingEnabled": false,
+
   "hooks": {
+{{- if eq .chezmoi.os "darwin" }}
     "Stop": [
       {
         "hooks": [
@@ -21,7 +23,9 @@
         ]
       }
     ]
+{{- end }}
   },
+
   "statusLine": {
     "type": "command",
     "command": "pwd"
