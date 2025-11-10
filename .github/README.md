@@ -24,3 +24,9 @@ On machines where I use SSH for Git:
 4. Add `~/.ssh/id_ed25519.pub` to GitHub.
 
 5. `chezmoi init --apply --ssh marktsuchida`
+
+## Manual settings
+
+### Mapping Caps Lock to Ctrl
+
+- On Windows, use Microsoft PowerToys > Keyboard Manager.
