@@ -4,23 +4,9 @@
 
 source $VIMRUNTIME/defaults.vim
 
-set backup
-set backupcopy=yes
-if has('persistent_undo')
-  set undofile
-endif
-
 if &t_Co > 2 || has("gui_running")
-  " Switch on highlighting the last used search pattern.
   set hlsearch
 endif
-
-if has("autocmd")
-  autocmd FileType text setlocal textwidth=78
-  autocmd BufReadCmd *.jar,*.whl call zip#Browse(expand("<amatch>"))
-else
-  set autoindent
-endif " has("autocmd")
 
 if has('syntax') && has('eval')
   packadd! matchit
@@ -44,6 +30,7 @@ endif
 
 """ General preference settings
 
+set autoindent
 set hidden
 set laststatus=2
 set encoding=utf-8
@@ -55,6 +42,13 @@ highlight ColorColumn term=bold ctermbg=4 guibg=darkgrey
 set list
 set listchars=trail:▫,tab:‣\ 
 set scrolloff=1
+
+" Backups
+set backup
+set backupcopy=yes
+if has('persistent_undo')
+  set undofile
+endif
 
 " Avoid .sw?, *~, .*.un~ scattered everywhere.
 set directory=~/.cache/vim-backups//,.
@@ -121,8 +115,13 @@ au FileType xml syntax on
 let g:xml_syntax_folding=1
 au FileType xml setlocal foldmethod=syntax
 
+" Text
+" Following example vimrc (probably to match Vim help files):
+au FileType text setlocal textwidth=78
+
 " Markdown
 au FileType markdown Twotab
+au FileType markdown setlocal textwidth=79
 
 " Vim script
 au FileType vim Twotab
@@ -144,6 +143,8 @@ au BufRead,BufNewFile *.bsh Realthreetab
 au BufRead,BufNewFile *.ts setlocal filetype=javascript
 au BufRead,BufNewFile *.ts Twotab
 
+" Zip files in disguise (if filetype not already set -- to avoid doubling)
+autocmd BufRead,BufNewFile *.jar,*.war,*.whl setfiletype zip
 
 """ Simple text highlighting
 
