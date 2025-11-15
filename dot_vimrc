@@ -103,45 +103,45 @@ endif " s:is_osx
 """ Filetype-specific settings
 
 " Python
-au FileType python Fourtab
+autocmd FileType python Fourtab
 
 " HTML
-au FileType html Twotab
-au FileType xhtml Twotab
+autocmd FileType html Twotab
+autocmd FileType xhtml Twotab
 
 " XML
-au FileType xml Fourtab
-au FileType xml syntax on
+autocmd FileType xml Fourtab
+autocmd FileType xml syntax on
 let g:xml_syntax_folding=1
-au FileType xml setlocal foldmethod=syntax
+autocmd FileType xml setlocal foldmethod=syntax
 
 " Text
 " Following example vimrc (probably to match Vim help files):
-au FileType text setlocal textwidth=78
+autocmd FileType text setlocal textwidth=78
 
 " Markdown
-au FileType markdown Twotab
-au FileType markdown setlocal textwidth=79
+autocmd FileType markdown Twotab
+autocmd FileType markdown setlocal textwidth=79
 
 " Vim script
-au FileType vim Twotab
+autocmd FileType vim Twotab
 
 " SWIG
-au BufNewFile,BufRead *.i setlocal filetype=swig
+autocmd BufNewFile,BufRead *.i setlocal filetype=swig
 
 " Go
-au BufRead,BufNewFile *.go setlocal filetype=go
+autocmd BufRead,BufNewFile *.go setlocal filetype=go
 
 " YAML
-au FileType yaml Twotab
+autocmd FileType yaml Twotab
 
 " BeanShell
-au BufRead,BufNewFile *.bsh setlocal filetype=java
-au BufRead,BufNewFile *.bsh Realthreetab
+autocmd BufRead,BufNewFile *.bsh setlocal filetype=java
+autocmd BufRead,BufNewFile *.bsh Realthreetab
 
 " TypeScript
-au BufRead,BufNewFile *.ts setlocal filetype=javascript
-au BufRead,BufNewFile *.ts Twotab
+autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
+autocmd BufRead,BufNewFile *.ts Twotab
 
 " Zip files in disguise (if filetype not already set -- to avoid doubling)
 autocmd BufRead,BufNewFile *.jar,*.war,*.whl setfiletype zip
@@ -149,20 +149,20 @@ autocmd BufRead,BufNewFile *.jar,*.war,*.whl setfiletype zip
 """ Simple text highlighting
 
 function SimpleHighlightSyntax()
-  syn clear
-  syn keyword simpleTodo TODO FIXME XXX REF CHECK
-  syn keyword simpleTodo2 contained TODO FIXME XXX REF CHECK
-  syn match simpleCite "\\cite{[^}]*}"
-  syn match simpleCite2 contained "\\cite{[^}]*}"
-  syn match simpleComment "^#.*" contains=simpleTodo2,simpleCite2
-  hi def link simpleComment Comment
-  hi def link simpleTodo Todo
-  hi def link simpleTodo2 Todo
-  hi def link simpleCite Type
-  hi def link simpleCite2 Type
+  syntax clear
+  syntax keyword simpleTodo TODO FIXME XXX REF CHECK
+  syntax keyword simpleTodo2 contained TODO FIXME XXX REF CHECK
+  syntax match simpleCite "\\cite{[^}]*}"
+  syntax match simpleCite2 contained "\\cite{[^}]*}"
+  syntax match simpleComment "^#.*" contains=simpleTodo2,simpleCite2
+  highlight def link simpleComment Comment
+  highlight def link simpleTodo Todo
+  highlight def link simpleTodo2 Todo
+  highlight def link simpleCite Type
+  highlight def link simpleCite2 Type
 endfunction
 command SimpleHighlight call SimpleHighlightSyntax()
-au FileType simple call SimpleHighlightSyntax()
+autocmd FileType simple call SimpleHighlightSyntax()
 
 
 """ Abbreviations
