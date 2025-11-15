@@ -128,20 +128,20 @@ au FileType markdown Twotab
 au FileType vim Twotab
 
 " SWIG
-au BufNewFile,BufRead *.i set filetype=swig
+au BufNewFile,BufRead *.i setlocal filetype=swig
 
 " Go
-au BufRead,BufNewFile *.go set filetype=go
+au BufRead,BufNewFile *.go setlocal filetype=go
 
 " YAML
 au FileType yaml Twotab
 
 " BeanShell
-au BufRead,BufNewFile *.bsh set filetype=java
+au BufRead,BufNewFile *.bsh setlocal filetype=java
 au BufRead,BufNewFile *.bsh Realthreetab
 
 " TypeScript
-au BufRead,BufNewFile *.ts set filetype=javascript
+au BufRead,BufNewFile *.ts setlocal filetype=javascript
 au BufRead,BufNewFile *.ts Twotab
 
 
