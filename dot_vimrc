@@ -186,3 +186,62 @@ let g:eskk#large_dictionary = {
 let g:eskk#enable_completion = 0  " No neocomplete
 let g:eskk#egg_like_newline = 1
 let g:eskk#keep_state = 1
+
+""" Hex editing
+
+" Enhanced hex mode with proper state management
+function! ToggleHex()
+  " Check if we're in hex mode
+  let l:modified = &mod
+  let l:oldreadonly = &readonly
+  let &readonly = 0
+  let l:oldmodifiable = &modifiable
+  let &modifiable = 1
+
+  if !exists("b:editHex") || !b:editHex
+    " Save old options
+    let b:oldft = &ft
+    let b:oldbin = &bin
+
+    " Switch to hex
+    let &bin = 1
+    let b:editHex = 1
+    %!xxd
+
+    " Set filetype for syntax highlighting
+    let &ft = "xxd"
+  else
+    " Convert back from hex
+    %!xxd -r
+
+    " Restore old options
+    let &ft = b:oldft
+    let &bin = b:oldbin
+    let b:editHex = 0
+  endif
+
+  " Restore modified flag and readonly status
+  let &mod = l:modified
+  let &readonly = l:oldreadonly
+  let &modifiable = l:oldmodifiable
+endfunction
+
+command! Hexmode call ToggleHex()
+
+" Convert back to binary for writing
+function! HexPreWrite()
+  if exists("b:editHex") && b:editHex
+    let b:hex_view = winsaveview()
+    silent %!xxd -r
+  endif
+endfunction
+
+function! HexPostWrite()
+  if exists("b:editHex") && b:editHex
+    silent %!xxd
+    call winrestview(b:hex_view)
+  endif
+endfunction
+
+autocmd BufWritePre * call HexPreWrite()
+autocmd BufWritePost * call HexPostWrite()
