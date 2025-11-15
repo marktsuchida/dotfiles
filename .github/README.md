@@ -1,6 +1,10 @@
 # dotfiles
 
-Setting up with [chezmoi](https://www.chezmoi.io/):
+Note: This repo is public for my own convenience, but I might rewrite history
+on the main branch at any time. If you find any unencrypted credentials in the
+commit history, they are long revoked so don't bother reporting.
+
+## Setting up with [chezmoi](https://www.chezmoi.io/):
 
 1. On Windows, make sure symbolic links are enabled. To do so without enabling
    Developer Mode, open **Local Group Policy Editor** and add my username to
@@ -13,15 +17,16 @@ Setting up with [chezmoi](https://www.chezmoi.io/):
     - Ubuntu: `sudo snap install chezmoi --classic`
     - Windows: `scoop install chezmoi`
 
-On machines where I use a Git credential manager:
+On machines where I use Git Credential Manager and on temporary machines where
+I won't change dotfiles:
 
 3. `chezmoi init --apply marktsuchida` (uses HTTPS)
 
 On machines where I use SSH for Git:
 
-3. `ssh-keygen -t ed25519 -a 100` (with passphrase)
+3. `ssh-keygen -t ed25519 -a 256 -C <email/comment>` (with passphrase)
 
-4. Add `~/.ssh/id_ed25519.pub` to GitHub.
+4. Add `~/.ssh/id_ed25519.pub` [to GitHub](https://github.com/settings/keys).
 
 5. `chezmoi init --apply --ssh marktsuchida`
 
