@@ -165,12 +165,6 @@ command SimpleHighlight call SimpleHighlightSyntax()
 autocmd FileType simple call SimpleHighlightSyntax()
 
 
-""" Abbreviations
-iabbrev umgr Micro-Manager
-iabbrev hcw Hardware Configuration Wizard
-iabbrev dpb Device Property Browser
-iabbrev probrep Problem Report (Help Menu)
-
 """ SKK (eskk.vim)
 let g:eskk#directory = "~/.skk"
 let g:eskk#dictionary = {
