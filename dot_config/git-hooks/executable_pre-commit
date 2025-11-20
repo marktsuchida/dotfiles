@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ -f .pre-commit-config.yaml ]; then
+    if [ -f .git/hooks/pre-commit ] && \
+        grep -q "pre-commit" .git/hooks/pre-commit 2>/dev/null; then
+        exec pre-commit run --hook-stage commit
+    else
+        echo "PRE-COMMIT HOOKS NOT INSTALLED" >&2
+        echo "Run: git install-pre-commit" >&2
+        exit 1
+    fi
+fi
+
+if [ -f .pre-commit-config.yml ]; then
+    echo ".pre-commit-config.yaml misnamed .yml" >&2
+    exit 1
+fi
+
+exit 0

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ ! -f .pre-commit-config.yaml ]; then
+    echo "No .pre-commit-config.yaml found in current directory"
+    exit 1
+fi
+
+# pre-commit refuses to install hooks when core.hooksPath is set (to anything),
+# so we need to disable it.
+HOOKS_PATH=$(git config --global core.hooksPath)
+git config --global --unset core.hooksPath
+pre-commit install
+if [ -n "$HOOKS_PATH" ]; then
+    git config --global core.hooksPath "$HOOKS_PATH"
+    echo "Global hooksPath restored"
+fi
