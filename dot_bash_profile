@@ -1,3 +1,8 @@
+# There is not much point in trying to separate .[bash_]profile from .bashrc
+# because
+# - On Linux, terminals start a non-login shell (usually), whereas
+# - On macOS, Terminal.app starts a login shell.
+# So just do the same thing either way.
 [ -f ~/.bashrc ] && source ~/.bashrc
 
 # Ignore any settings that various installers might "smartly" append.
