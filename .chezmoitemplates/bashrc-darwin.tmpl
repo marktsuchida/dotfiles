@@ -105,8 +105,8 @@ fi
 
 
 # MacTeX
-# PATH and MANPATH are automatically added by system
-prepend_if_not_in_path INFOPATH /Library/TeX/Documentation/texmf-doc/info
+# PATH and MANPATH are automatically added by system, via path_helper(8)
+prepend_if_not_in_path INFOPATH /Library/TeX/Distributions/.DefaultTeX/Contents/Info
 
 
 # Visual Studio Code 'code' command
@@ -162,3 +162,64 @@ else
 fi
 unset __mamba_setup
 # <<< mamba initialize <<<
+
+
+# macOS manpath fix
+#
+# macOS has 2 non-standard ways to configure paths for man(1):
+# 1. path_helper(8), which assembles a list of paths from /etc/manpaths.d and
+#    _prepends_ them to MANPATH, but only if MANPATH exists (empty or not). It
+#    also always appends a ':' at the end of MANPATH (which is self-defeating
+#    given what manpath(1) does).
+# 2. manpath(1), which has two modes of operation:
+#    - If MANPATH is unset or contains an empty colon-separated field, it
+#      constructs the paths entirely based on PATH
+#    - Otherwise (if MANPATH is a nonempty list of paths with no empty item),
+#      it returns MANPATH unmodified.
+# The current Apple-expected behavior is that we just get manpath(1)'s PATH-
+# based list, and no method is provided (as far as I can tell) to combine this
+# with additional user-supplied paths.
+#
+# The platform-neutral bashrc has constructed a MANPATH up to here. In
+# addition, we also want the paths provided by path_helper(8) (e.g., XQuartz,
+# TeX Live). So do a bit of a dance to combine all into a static MANPATH
+# containing no stray colons.
+
+# Remove leading, trailing, or repeated colons.
+clean_path() {
+    local input="$1"
+    local output=""
+    local IFS=":"
+
+    # Split the input by colons into an array
+    read -ra parts <<< "$input"
+
+    # Rebuild the path with only non-empty parts
+    for part in "${parts[@]}"; do
+        if [[ -n "$part" ]]; then
+            if [[ -z "$output" ]]; then
+                output="$part"
+            else
+                output="$output:$part"
+            fi
+        fi
+    done
+
+    echo "$output"
+}
+
+# We don't need path_helper to add stuff to PATH, because it already would have
+# via /etc/profile (at which time MANPATH would have been unset).
+tmp_save_path="$PATH"
+if [ -x /usr/libexec/path_helper ]; then
+	export MANPATH=:
+	eval `/usr/libexec/path_helper -s`
+fi
+tmp_classic_manpath="$MANPATH"
+unset MANPATH
+tmp_path_based_manpath=$(manpath)
+export MANPATH="$(clean_path "$tmp_path_based_manpath:$tmp_classic_manpath")"
+export PATH="$tmp_save_path"
+unset tmp_save_path
+unset tmp_classic_manpath
+unset tmp_path_based_manpath
