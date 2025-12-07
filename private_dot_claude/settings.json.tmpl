@@ -1,7 +1,10 @@
 {
-  "alwaysThinkingEnabled": true,
-  "spinnerTipsEnabled": false,
-
+  "permissions": {
+    "deny": [
+      "Edit(.git/**)",
+      "Write(.git/**)"
+    ]
+  },
   "hooks": {
 {{- if eq .chezmoi.os "darwin" }}
     "Stop": [
@@ -26,9 +29,10 @@
     ]
 {{- end }}
   },
-
   "statusLine": {
     "type": "command",
     "command": "bash -c ~/.claude/statusline.sh"
-  }
+  },
+  "spinnerTipsEnabled": false,
+  "alwaysThinkingEnabled": true
 }
