@@ -113,7 +113,7 @@ autocmd FileType xhtml Twotab
 autocmd FileType xml Fourtab
 autocmd FileType xml syntax on
 let g:xml_syntax_folding=1
-autocmd FileType xml setlocal foldmethod=syntax
+autocmd FileType xml setlocal foldmethod=syntax foldlevel=99
 
 " Text
 " Following example vimrc (probably to match Vim help files):
