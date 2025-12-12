@@ -1,5 +1,6 @@
 {{- /* vim: set filetype=gitconfig: */ -}}
 [core]
+	pager = delta
 	commitGraph = true
 	hooksPath = {{ .chezmoi.homeDir }}/.config/git-hooks
 [color]
@@ -55,3 +56,8 @@
 	sort = -committerdate
 [commit]
 	verbose = true
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	dark = true
