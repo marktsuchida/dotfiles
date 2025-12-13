@@ -5,6 +5,8 @@ matches:
     replace: (Assisted by Claude Code; any errors are mine.)
   - trigger: :;paiack
     replace: (Partially assisted by Claude Code; any errors are mine.)
+  - trigger: :;aidack
+    replace: (Analysis/discovery assisted by Claude Code.)
 
   - trigger: :;umgr
     replace: Micro-Manager
