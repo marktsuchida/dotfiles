@@ -286,8 +286,14 @@ gradle() {
 
 # Node version manager
 export NVM_DIR=$HOME/.nvm
-source_if_file $NVM_DIR/nvm.sh
-source_if_file $NVM_DIR/bash_completion
+if [ -d /opt/homebrew/opt/nvm ]; then
+	source_if_file /opt/homebrew/opt/nvm/nvm.sh
+	source_if_file /opt/homebrew/opt/nvm/etc/bash_completion.d/nvm
+else
+	# Manual install ($NVM_DIR is a clone of nvm.git)
+	source_if_file $NVM_DIR/nvm.sh
+	source_if_file $NVM_DIR/bash_completion
+fi
 
 
 # Rust
