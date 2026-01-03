@@ -1,10 +1,10 @@
 {
   "permissions": {
-    "defaultMode": "plan",
     "deny": [
       "Edit(.git/**)",
       "Write(.git/**)"
-    ]
+    ],
+    "defaultMode": "plan"
   },
   "hooks": {
 {{- if eq .chezmoi.os "darwin" }}
