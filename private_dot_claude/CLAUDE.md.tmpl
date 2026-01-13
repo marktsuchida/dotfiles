@@ -1,0 +1,28 @@
+## Minimal code comments
+
+Do not add explanatory comments that duplicate what the code says. Comments
+should be added very sparingly, always be concise, and be used to explain what
+is not obvious from the code. Be especially careful not to add comments that
+explain a _change_ to the code -- those are only valid momentarily and have no
+place in an enduring codebase.
+
+## Asking questions during planning
+
+When planning, whenever you have a design decision to make, ask me using the
+AskUserQuestion tool. Don't do this for completely obvious things, but err on
+the side of asking many clarifying questions; I'd rather be asked than have to
+correct your work later. However, do not ask if I approve of the plan before
+presenting me the plan.
+
+{{- if eq .chezmoi.os "windows" }}
+
+## Windows File Paths
+
+Always use backslashes (`\`) not forward slashes in file paths for the
+Read/Edit/Write tools.
+
+- ❌ `"D:/repos/project/file.tsx"`
+- ❌ `"/d/repos/project/file.tsx"`
+- ✅ `"D:\repos\project\file.tsx"`
+
+{{- end }}
