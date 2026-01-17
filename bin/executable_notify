@@ -1,0 +1,43 @@
+#!/bin/bash
+
+title="$1"
+shift
+message="$@"
+
+if ! command -v osascript &>/dev/null; then
+    echo "notify: osascript required (for now)" >&2
+    exit 1
+fi
+
+is_terminal_frontmost() {
+    local front_app
+    front_app=$(osascript -e '
+        tell application "System Events"
+            set frontApp to name of first application process ¬
+                whose frontmost is true
+        end tell
+        return frontApp
+    ' 2>/dev/null)
+
+    [ "$front_app" = "Terminal" ]
+}
+
+is_tmux_pane_visible() {
+    [ -z "$TMUX" ] && return 1
+
+    local attached=$(tmux display-message -p '#{session_attached}')
+    [ "$attached" != "1" ] && return 1
+
+    local my_pane="$TMUX_PANE"
+
+    # list-panes -s evaluates #{window_active} and #{pane_active} for EACH
+    # pane. "11" means: window is active AND pane is active within that window.
+    tmux list-panes -s -F '#{window_active}#{pane_active} #{pane_id}' \
+        | grep -q "^11 ${my_pane}$"
+}
+
+if is_terminal_frontmost && is_tmux_pane_visible; then
+    exit 0
+fi
+
+osascript -e "display notification \"$message\" with title \"$title\""
