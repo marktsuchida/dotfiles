@@ -1,2 +1,5 @@
 #!/bin/bash
-git ls-files |entr "$@"
+echo "Reminder: Use 'watchexec' instead of 'git entr -[c]dds'" >/dev/stderr
+echo "    watchexec [-c] [--] command [args]" >/dev/stderr
+echo "    ('-c': clear screen before running)" >/dev/stderr
+exit 1
