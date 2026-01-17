@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Reminder: use 'glow' or 'gh markdown-preview' instead of 'grip'" >/dev/stderr
+exit 1
