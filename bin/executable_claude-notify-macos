@@ -1,3 +1,4 @@
 #!/bin/bash
 # For Claude Code 'Notification' hook
-jq -r '.message' | xargs -I {} osascript -e 'display notification "{}" with title "Claude Code"'
+dir="$(jq -r .cwd | sed "s|^$HOME|~|")"
+$HOME/bin/notify "$dir" "$(jq -r .message)"
