@@ -1,4 +1,6 @@
 #!/bin/bash
 # For Claude Code 'Notification' hook
-dir="$(jq -r .cwd | sed "s|^$HOME|~|")"
-$HOME/bin/notify "$dir" "$(jq -r .message)"
+input="$(cat)"
+title="$(echo "$input" | jq -r '.cwd' | sed "s|^$HOME|~|")"
+msg="$(echo "$input" | jq -r '.message')"
+$HOME/bin/notify "$title" "$msg"
