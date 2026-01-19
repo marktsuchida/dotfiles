@@ -1,0 +1,2 @@
+#/bin/bash
+DELTA_FEATURES=+side-by-side git diff "$@"
