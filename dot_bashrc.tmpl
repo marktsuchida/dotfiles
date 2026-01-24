@@ -354,7 +354,7 @@ alias git-config-gmail='git config user.email $(rot13 znexgfhpuvqn@tznvy.pbz) &&
 {{- else if eq .chezmoi.os "windows" }}
 {{ template "bashrc-windows.tmpl" . }}
 {{- else if (and (eq .chezmoi.os "linux")
-                 (or (eq .chezmoi.osRelease.idLike "debian")
+                 (or (eq (index .chezmoi.osRelease "idLike") "debian")
                      (eq .chezmoi.osRelease.id "debian"))) }}
 {{ template "bashrc-debian.tmpl" . }}
 {{- end }}
