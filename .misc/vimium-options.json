@@ -1,6 +1,6 @@
 {
   "keyMappings": "",
-  "settingsVersion": "2.1.2",
+  "settingsVersion": "2.3.1",
   "exclusionRules": [
     {
       "passKeys": "",
@@ -57,6 +57,10 @@
     {
       "passKeys": "",
       "pattern": "https?://quick-bench.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://connect.raspberrypi.com/*"
     }
   ]
 }
