@@ -22,6 +22,10 @@ if ($Env:GIT_INSTALL_ROOT) {
     Set-Alias -Name "less" -Value "$Env:GIT_INSTALL_ROOT\usr\bin\less.exe"
 }
 
+if (Get-Command fnm -ErrorAction SilentlyContinue) {
+    fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
+}
+
 #region conda initialize
 # !! Contents within this block are managed by 'conda init' !!
 If (Test-Path "$HOME\miniforge3\Scripts\conda.exe") {
