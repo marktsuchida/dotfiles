@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ -f .pre-commit-config.yaml ]; then
-    if [ -f .git/hooks/pre-commit ] && \
-        grep -q "pre-commit" .git/hooks/pre-commit 2>/dev/null; then
+    HOOK="$(git rev-parse --git-common-dir)/hooks/pre-commit"
+    if [ -f "$HOOK" ] && grep -q "pre-commit" "$HOOK" 2>/dev/null; then
         exec pre-commit run --hook-stage commit
     else
         echo "PRE-COMMIT HOOKS NOT INSTALLED" >&2
