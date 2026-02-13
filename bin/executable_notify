@@ -9,17 +9,17 @@ if ! command -v osascript &>/dev/null; then
     exit 1
 fi
 
-is_terminal_frontmost() {
-    local front_app
-    front_app=$(osascript -e '
-        tell application "System Events"
-            set frontApp to name of first application process ¬
-                whose frontmost is true
-        end tell
-        return frontApp
-    ' 2>/dev/null)
+front_app=$(osascript -e '
+    tell application "System Events"
+        set frontProcess to first application process whose frontmost is true
+        set bid to bundle identifier of frontProcess
+    end tell
+    return bid
+' 2>/dev/null)
 
-    [ "$front_app" = "Terminal" ]
+is_vscode() {
+    [ "$TERM_PROGRAM" = "vscode" ] || \
+        [ "$CLAUDE_CODE_ENTRYPOINT" = "claude-vscode" ]
 }
 
 is_tmux_pane_visible() {
@@ -36,7 +36,9 @@ is_tmux_pane_visible() {
         | grep -q "^11 ${my_pane}$"
 }
 
-if is_terminal_frontmost && is_tmux_pane_visible; then
+if is_vscode; then
+    [ "$front_app" = "com.microsoft.VSCode" ] && exit 0
+elif [ "$front_app" = "com.apple.Terminal" ] && is_tmux_pane_visible; then
     exit 0
 fi
 
