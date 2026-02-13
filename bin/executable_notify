@@ -42,4 +42,8 @@ elif [ "$front_app" = "com.apple.Terminal" ] && is_tmux_pane_visible; then
     exit 0
 fi
 
-osascript -e "display notification \"$message\" with title \"$title\""
+osascript - "$message" "$title" <<'EOF'
+    on run argv
+        display notification (item 1 of argv) with title (item 2 of argv)
+    end run
+EOF
