@@ -2,11 +2,19 @@
 
 if [ -f .pre-commit-config.yaml ]; then
     HOOK="$(git rev-parse --git-common-dir)/hooks/pre-commit"
-    if [ -f "$HOOK" ] && grep -q "pre-commit" "$HOOK" 2>/dev/null; then
+    if [ -f "$HOOK" ] && grep -q "prek" "$HOOK" 2>/dev/null; then
+        exec prek run --hook-stage pre-commit
+    elif [ -f "$HOOK" ] && grep -q "pre-commit" "$HOOK" 2>/dev/null; then
+        if [ -t 2 ]; then
+            YELLOW=$(tput setaf 3 2>/dev/null)
+            RESET=$(tput sgr0 2>/dev/null)
+        fi
+        printf '%sWARNING: this repo still uses Python pre-commit; consider migrating to prek%s\n' "$YELLOW" "$RESET" >&2
+        printf '%s  Run: git install-prek%s\n' "$YELLOW" "$RESET" >&2
         exec pre-commit run --hook-stage commit
     else
         echo "PRE-COMMIT HOOKS NOT INSTALLED" >&2
-        echo "Run: git install-pre-commit" >&2
+        echo "Run: git install-prek" >&2
         exit 1
     fi
 fi
