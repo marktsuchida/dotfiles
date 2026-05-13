@@ -10,8 +10,12 @@ import argparse
 import json
 import re
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
+
+
+POLL_INTERVAL = 0.5
 
 
 META_TAGS = (
@@ -144,7 +148,7 @@ def strip_meta_tags(text: str) -> str:
     return META_RE.sub("", text).strip()
 
 
-def jsonl_to_md(path: Path) -> str:
+def _load_records(path: Path) -> list:
     records = []
     with open(path) as f:
         for line in f:
@@ -155,7 +159,39 @@ def jsonl_to_md(path: Path) -> str:
                 records.append(json.loads(line))
             except json.JSONDecodeError:
                 continue
+    return records
 
+
+def render_message(msg, tool_results) -> str:
+    if msg.get("isMeta") or msg.get("isSidechain"):
+        return ""
+    role = msg.get("type")
+    if role not in ("user", "assistant"):
+        return ""
+    content = msg.get("message", {}).get("content", "")
+    if role == "user" and is_pure_tool_result(content):
+        return ""
+    text = render_content(content, tool_results)
+    if role == "user":
+        text = strip_meta_tags(text)
+    if not text:
+        return ""
+    label = "You" if role == "user" else "Claude"
+    return f"## {label}\n\n{text}"
+
+
+def _required_tool_use_ids(msg) -> list:
+    content = msg.get("message", {}).get("content")
+    if not isinstance(content, list):
+        return []
+    return [
+        b.get("id", "") for b in content
+        if b.get("type") == "tool_use" and b.get("id")
+    ]
+
+
+def jsonl_to_md(path: Path, hold_pending: bool = False):
+    records = _load_records(path)
     tool_results = build_tool_results(records)
 
     messages = [
@@ -167,24 +203,92 @@ def jsonl_to_md(path: Path) -> str:
     messages.sort(key=lambda r: r.get("timestamp", ""))
 
     out = [f"# Conversation: {path.stem}"]
+    held = []
+    held_started = False
 
     for msg in messages:
-        role = msg["type"]
-        raw_content = msg.get("message", {}).get("content", "")
+        if hold_pending:
+            required = _required_tool_use_ids(msg)
+            if held_started or any(uid not in tool_results for uid in required):
+                held.append(msg)
+                held_started = True
+                continue
+        chunk = render_message(msg, tool_results)
+        if chunk:
+            out.append(chunk)
 
-        if role == "user" and is_pure_tool_result(raw_content):
+    text = "\n\n".join(out) + "\n"
+    if hold_pending:
+        return text, held, tool_results
+    return text
+
+
+def _ingest_record(r, tool_results, pending):
+    if r.get("type") == "user":
+        content = r.get("message", {}).get("content")
+        if isinstance(content, list):
+            for block in content:
+                if block.get("type") == "tool_result":
+                    uid = block.get("tool_use_id", "")
+                    if uid:
+                        tool_results[uid] = tool_result_text(block)
+            if is_pure_tool_result(content):
+                return
+    if r.get("type") in ("user", "assistant"):
+        if r.get("isMeta") or r.get("isSidechain"):
+            return
+        pending.append(r)
+
+
+def _flush(pending, tool_results, out, header_state, stem):
+    while pending:
+        msg = pending[0]
+        required = _required_tool_use_ids(msg)
+        if any(uid not in tool_results for uid in required):
+            break
+        pending.pop(0)
+        chunk = render_message(msg, tool_results)
+        if not chunk:
             continue
+        if not header_state["printed"]:
+            out.write(f"# Conversation: {stem}\n\n")
+            header_state["printed"] = True
+        out.write(chunk + "\n\n")
+        out.flush()
 
-        text = render_content(raw_content, tool_results)
-        if role == "user":
-            text = strip_meta_tags(text)
-        if not text:
-            continue
 
-        label = "You" if role == "user" else "Claude"
-        out.append(f"## {label}\n\n{text}")
+def follow_file(path: Path, start_offset: int,
+                initial_pending: list, initial_tool_results: dict) -> None:
+    tool_results = dict(initial_tool_results)
+    pending = list(initial_pending)
+    header_state = {"printed": True}
+    buf = ""
 
-    return "\n\n".join(out) + "\n"
+    with open(path) as f:
+        f.seek(start_offset)
+        while True:
+            chunk = f.read()
+            if chunk:
+                buf += chunk
+                while True:
+                    idx = buf.find("\n")
+                    if idx < 0:
+                        break
+                    line, buf = buf[:idx].strip(), buf[idx + 1:]
+                    if not line:
+                        continue
+                    try:
+                        r = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    _ingest_record(r, tool_results, pending)
+                _flush(pending, tool_results, sys.stdout,
+                       header_state, path.stem)
+            else:
+                try:
+                    time.sleep(POLL_INTERVAL)
+                except KeyboardInterrupt:
+                    return
 
 
 def project_dir_for(cwd: Path) -> Path:
@@ -262,7 +366,21 @@ def main():
         help="With no argument: list the last 10 conversations for the "
              "current directory. With N: convert entry N from that list.",
     )
+    parser.add_argument(
+        "-f", "--follow", action="store_true",
+        help="After converting existing content, continuously follow the "
+             "file and emit new messages as they are written (like "
+             "`tail -f`). Resolves the latest session once at startup; "
+             "does not switch files. Cannot be combined with -r or -o.",
+    )
     args = parser.parse_args()
+
+    if args.follow and args.recent is not None:
+        print("error: -f cannot be combined with -r", file=sys.stderr)
+        sys.exit(1)
+    if args.follow and args.output is not None:
+        print("error: -f cannot be combined with -o", file=sys.stderr)
+        sys.exit(1)
 
     if args.recent is not None:
         if args.input is not None:
@@ -301,6 +419,14 @@ def main():
     if not input_path.is_file():
         print(f"error: not a file: {input_path}", file=sys.stderr)
         sys.exit(1)
+
+    if args.follow:
+        text, held, tool_results = jsonl_to_md(input_path, hold_pending=True)
+        sys.stdout.write(text)
+        sys.stdout.flush()
+        start_offset = input_path.stat().st_size
+        follow_file(input_path, start_offset, held, tool_results)
+        return
 
     md = jsonl_to_md(input_path)
 
