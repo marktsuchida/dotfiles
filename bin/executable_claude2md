@@ -1,0 +1,314 @@
+#!/usr/bin/env python3
+
+"""Convert a Claude Code .jsonl session file to Markdown.
+
+After https://github.com/ctrueden/dotfiles/blob/main/bin/claude2md but with
+some different preferences.
+"""
+
+import argparse
+import json
+import re
+import sys
+from datetime import datetime
+from pathlib import Path
+
+
+META_TAGS = (
+    "local-command-caveat",
+    "local-command-stdout",
+    "command-name",
+    "command-message",
+    "command-args",
+    "system-reminder",
+)
+META_RE = re.compile(
+    "|".join(rf"<{t}>.*?</{t}>" for t in META_TAGS),
+    flags=re.DOTALL,
+)
+
+
+def fence(text: str, lang: str = "") -> str:
+    text = text.rstrip("\n")
+    longest = max((len(m) for m in re.findall(r"`+", text)), default=0)
+    bar = "`" * max(3, longest + 1)
+    return f"{bar}{lang}\n{text}\n{bar}"
+
+
+def details(summary: str, body: str) -> str:
+    return f"<details>\n<summary>{summary}</summary>\n\n{body}\n\n</details>"
+
+
+def tool_result_text(block) -> str:
+    inner = block.get("content", "")
+    if isinstance(inner, list):
+        inner = "\n".join(
+            b.get("text", "") for b in inner if b.get("type") == "text"
+        )
+    return str(inner).strip()
+
+
+def build_tool_results(records) -> dict:
+    results = {}
+    for r in records:
+        if r.get("type") != "user":
+            continue
+        content = r.get("message", {}).get("content")
+        if not isinstance(content, list):
+            continue
+        for block in content:
+            if block.get("type") != "tool_result":
+                continue
+            uid = block.get("tool_use_id", "")
+            if uid:
+                results[uid] = tool_result_text(block)
+    return results
+
+
+def render_tool_use(block, tool_results) -> str:
+    name = block.get("name", "tool")
+    inp = block.get("input", {}) or {}
+    uid = block.get("id", "")
+    result = tool_results.get(uid, "")
+
+    def with_result(body: str) -> str:
+        if result:
+            return body + "\n\n" + fence(result)
+        return body
+
+    if "command" in inp:
+        command = str(inp["command"])
+        desc = inp.get("description", "")
+        if desc:
+            brief = str(desc).splitlines()[0]
+        else:
+            first = command.splitlines()[0] if command else ""
+            brief = first[:80] + ("…" if len(first) > 80 else "")
+        summary = f"`{name}`: {brief}" if brief else f"`{name}`"
+        body = fence(command, "bash")
+        return details(summary, with_result(body))
+
+    if "file_path" in inp and "content" in inp:
+        file_path = str(inp["file_path"])
+        content = str(inp["content"])
+        summary = f"`{name}`: `{file_path}`"
+        return details(summary, fence(content))
+
+    if "file_path" in inp:
+        file_path = str(inp["file_path"])
+        summary = f"`{name}`: `{file_path}`"
+        extra = {k: v for k, v in inp.items() if k != "file_path"}
+        parts = []
+        if extra:
+            parts.append(fence(json.dumps(extra, indent=2), "json"))
+        if result:
+            parts.append(fence(result))
+        body = "\n\n".join(parts) if parts else "_(no body)_"
+        return details(summary, body)
+
+    summary = f"`{name}`"
+    body = fence(json.dumps(inp, indent=2), "json")
+    return details(summary, with_result(body))
+
+
+def render_content(content, tool_results) -> str:
+    if isinstance(content, str):
+        return content.strip()
+    if not isinstance(content, list):
+        return ""
+    parts = []
+    for block in content:
+        btype = block.get("type")
+        if btype == "text":
+            text = block.get("text", "").strip()
+            if text:
+                parts.append(text)
+        elif btype == "thinking":
+            thinking = block.get("thinking", "").strip()
+            if thinking:
+                parts.append(details("thinking", fence(thinking)))
+        elif btype == "tool_use":
+            parts.append(render_tool_use(block, tool_results))
+        elif btype == "tool_result":
+            parts.append(fence(tool_result_text(block)))
+    return "\n\n".join(p for p in parts if p)
+
+
+def is_pure_tool_result(content) -> bool:
+    if not isinstance(content, list) or not content:
+        return False
+    return all(b.get("type") == "tool_result" for b in content)
+
+
+def strip_meta_tags(text: str) -> str:
+    return META_RE.sub("", text).strip()
+
+
+def jsonl_to_md(path: Path) -> str:
+    records = []
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                records.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
+
+    tool_results = build_tool_results(records)
+
+    messages = [
+        r for r in records
+        if r.get("type") in ("user", "assistant")
+        and not r.get("isMeta")
+        and not r.get("isSidechain")
+    ]
+    messages.sort(key=lambda r: r.get("timestamp", ""))
+
+    out = [f"# Conversation: {path.stem}"]
+
+    for msg in messages:
+        role = msg["type"]
+        raw_content = msg.get("message", {}).get("content", "")
+
+        if role == "user" and is_pure_tool_result(raw_content):
+            continue
+
+        text = render_content(raw_content, tool_results)
+        if role == "user":
+            text = strip_meta_tags(text)
+        if not text:
+            continue
+
+        label = "You" if role == "user" else "Claude"
+        out.append(f"## {label}\n\n{text}")
+
+    return "\n\n".join(out) + "\n"
+
+
+def project_dir_for(cwd: Path) -> Path:
+    encoded = str(cwd.resolve()).replace("/", "-").replace(".", "-")
+    return Path.home() / ".claude" / "projects" / encoded
+
+
+def list_sessions(project_dir: Path) -> list[Path]:
+    if not project_dir.is_dir():
+        return []
+    files = [p for p in project_dir.iterdir()
+             if p.is_file() and p.suffix == ".jsonl"]
+    files.sort(key=lambda p: p.stat().st_mtime)
+    return files
+
+
+def first_prompt_line(path: Path) -> str:
+    candidate_text = ""
+    try:
+        with open(path) as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    r = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                rtype = r.get("type")
+                if rtype == "assistant":
+                    break
+                if rtype != "user":
+                    continue
+                if r.get("isMeta") or r.get("isSidechain"):
+                    continue
+                content = r.get("message", {}).get("content", "")
+                if is_pure_tool_result(content):
+                    continue
+                text = render_content(content, {})
+                text = strip_meta_tags(text)
+                if text:
+                    candidate_text = text
+    except OSError:
+        return ""
+    first = candidate_text.splitlines()[0] if candidate_text else ""
+    return first.strip()
+
+
+def render_listing(sessions: list[Path]) -> str:
+    lines = []
+    for i, p in enumerate(sessions, start=1):
+        mtime = datetime.fromtimestamp(p.stat().st_mtime)
+        stamp = mtime.strftime("%Y-%m-%d %H:%M")
+        prompt = first_prompt_line(p) or "(no prompt)"
+        lines.append(f"{i:2}. {stamp}  {p.stem}  {prompt}")
+    return "\n".join(lines) + "\n"
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Convert a Claude Code .jsonl session to Markdown."
+    )
+    parser.add_argument(
+        "input", type=Path, nargs="?", default=None,
+        help="Path to a .jsonl session file. Defaults to the latest "
+             "conversation for the current directory.",
+    )
+    parser.add_argument(
+        "-o", "--output", type=Path, default=None,
+        help="Write Markdown to this file (default: stdout).",
+    )
+    parser.add_argument(
+        "-r", "--recent", nargs="?", type=int, const=0, default=None,
+        metavar="N",
+        help="With no argument: list the last 10 conversations for the "
+             "current directory. With N: convert entry N from that list.",
+    )
+    args = parser.parse_args()
+
+    if args.recent is not None:
+        if args.input is not None:
+            print("error: -r cannot be combined with an input file",
+                  file=sys.stderr)
+            sys.exit(1)
+        project_dir = project_dir_for(Path.cwd())
+        sessions = list_sessions(project_dir)[-10:]
+        if not sessions:
+            print(f"error: no conversations found in {project_dir}",
+                  file=sys.stderr)
+            sys.exit(1)
+        if args.recent == 0:
+            if args.output is not None:
+                print("error: -o cannot be combined with -r listing",
+                      file=sys.stderr)
+                sys.exit(1)
+            sys.stdout.write(render_listing(sessions))
+            return
+        if args.recent < 1 or args.recent > len(sessions):
+            print(f"error: -r index {args.recent} out of range "
+                  f"(1..{len(sessions)})", file=sys.stderr)
+            sys.exit(1)
+        input_path = sessions[args.recent - 1]
+    elif args.input is None:
+        project_dir = project_dir_for(Path.cwd())
+        sessions = list_sessions(project_dir)
+        if not sessions:
+            print(f"error: no conversations found in {project_dir}",
+                  file=sys.stderr)
+            sys.exit(1)
+        input_path = sessions[-1]
+    else:
+        input_path = args.input
+
+    if not input_path.is_file():
+        print(f"error: not a file: {input_path}", file=sys.stderr)
+        sys.exit(1)
+
+    md = jsonl_to_md(input_path)
+
+    if args.output:
+        args.output.write_text(md)
+    else:
+        sys.stdout.write(md)
+
+
+if __name__ == "__main__":
+    main()
