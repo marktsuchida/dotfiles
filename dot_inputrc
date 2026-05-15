@@ -2,3 +2,6 @@ set convert-meta off
 set input-meta on
 set output-meta on
 
+# Ignore tmux focus-events
+"\e[I": ""
+"\e[O": ""
