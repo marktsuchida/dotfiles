@@ -38,6 +38,16 @@ a good idea to reiterate this in the plan for such complex tasks. Whether a
 task is complex enough to be multiple commits should be judged based on how
 we'd want the history to look 6 months from now.
 
+{{- if eq .chezmoi.os "darwin" }}
+
+## Text tools
+
+Here on macOS grep, sed, and awk (among others) are the BSD-derived versions,
+but I usually have the GNU versions installed as ggrep, gsed, and gawk -- in
+case you need the GNU enhancements.
+
+{{- end }}
+
 {{- if eq .chezmoi.os "windows" }}
 
 ## Windows File Paths
