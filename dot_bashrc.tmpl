@@ -240,6 +240,14 @@ nkfless()
 	nkf -w ${1} | less
 }
 
+glow() {
+	if [ -t 1 ]; then
+		command glow -p "$@"
+	else
+		command glow "$@"
+	fi
+}
+
 
 ### Application setup
 
