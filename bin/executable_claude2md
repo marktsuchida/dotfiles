@@ -368,6 +368,12 @@ def main():
              "convert the Nth most recent conversation (N may exceed 10).",
     )
     parser.add_argument(
+        "-R", "--recent-all", action="store_true",
+        help="List all conversations for the current directory, numbered "
+             "from most recent (1), like -r with no argument but without "
+             "the 10-session limit.",
+    )
+    parser.add_argument(
         "-f", "--follow", action="store_true",
         help="After converting existing content, continuously follow the "
              "file and emit new messages as they are written (like "
@@ -382,8 +388,22 @@ def main():
     if args.follow and args.output is not None:
         print("error: -f cannot be combined with -o", file=sys.stderr)
         sys.exit(1)
+    if args.recent_all:
+        if args.recent is not None:
+            print("error: -R cannot be combined with -r", file=sys.stderr)
+            sys.exit(1)
+        if args.follow:
+            print("error: -R cannot be combined with -f", file=sys.stderr)
+            sys.exit(1)
+        if args.output is not None:
+            print("error: -R cannot be combined with -o", file=sys.stderr)
+            sys.exit(1)
+        if args.input is not None:
+            print("error: -R cannot be combined with an input file",
+                  file=sys.stderr)
+            sys.exit(1)
 
-    if args.recent is not None:
+    if args.recent is not None or args.recent_all:
         if args.input is not None:
             print("error: -r cannot be combined with an input file",
                   file=sys.stderr)
@@ -394,12 +414,13 @@ def main():
             print(f"error: no conversations found in {project_dir}",
                   file=sys.stderr)
             sys.exit(1)
-        if args.recent == 0:
+        if args.recent_all or args.recent == 0:
             if args.output is not None:
                 print("error: -o cannot be combined with -r listing",
                       file=sys.stderr)
                 sys.exit(1)
-            sys.stdout.write(render_listing(sessions[-10:]))
+            listing = sessions if args.recent_all else sessions[-10:]
+            sys.stdout.write(render_listing(listing))
             return
         if args.recent < 1 or args.recent > len(sessions):
             print(f"error: -r index {args.recent} out of range "
