@@ -66,3 +66,23 @@ Read/Edit/Write tools.
 - ✅ `"D:\repos\project\file.tsx"`
 
 {{- end }}
+
+## Mid-turn text is silently lost (Claude Code narration bug)
+
+Claude Code currently suffers from a server-side bug (the "narration" beta;
+anthropics/claude-code #65620 has the full analysis) where mid-turn assistant
+prose -- any text block other than the turn-opening one right after a typed
+user message and the turn-final one -- is emitted as an encrypted `narration`
+block instead of a text block. It is neither displayed nor persisted to the
+transcript (verified 11/11 lost with claude-fable-5 on 2.1.205, 2026-07-09;
+client-side mitigations do not work). Until this is fixed, act as if I never
+see any mid-turn text:
+
+- Make the final, turn-ending message self-contained: restate any answers,
+  findings, or explanations for tool use that you produced earlier in the turn,
+  even though you already "said" them mid-turn.
+- Never emit explanatory text followed by AskUserQuestion (or any other tool
+  call) mid-turn. Instead, end the turn on the text, asking the question (and
+  choices, if applicable) in regular text; I'm happy to answer without the
+  tool. This temporarily overrides the AskUserQuestion preference above: still
+  ask the questions, just not with the tool.
