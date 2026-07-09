@@ -339,11 +339,11 @@ def first_prompt_line(path: Path) -> str:
 
 def render_listing(sessions: list[Path]) -> str:
     lines = []
-    for i, p in enumerate(sessions, start=1):
+    for i, p in enumerate(reversed(sessions), start=1):
         mtime = datetime.fromtimestamp(p.stat().st_mtime)
         stamp = mtime.strftime("%Y-%m-%d %H:%M")
         prompt = first_prompt_line(p) or "(no prompt)"
-        lines.append(f"{i:2}. {stamp}  {p.stem}  {prompt}")
+        lines.append(f"{i}) {stamp}  {p.stem}  {prompt}")
     return "\n".join(lines) + "\n"
 
 
@@ -364,7 +364,8 @@ def main():
         "-r", "--recent", nargs="?", type=int, const=0, default=None,
         metavar="N",
         help="With no argument: list the last 10 conversations for the "
-             "current directory. With N: convert entry N from that list.",
+             "current directory, numbered from most recent (1). With N: "
+             "convert the Nth most recent conversation (N may exceed 10).",
     )
     parser.add_argument(
         "-f", "--follow", action="store_true",
@@ -388,7 +389,7 @@ def main():
                   file=sys.stderr)
             sys.exit(1)
         project_dir = project_dir_for(Path.cwd())
-        sessions = list_sessions(project_dir)[-10:]
+        sessions = list_sessions(project_dir)
         if not sessions:
             print(f"error: no conversations found in {project_dir}",
                   file=sys.stderr)
@@ -398,13 +399,13 @@ def main():
                 print("error: -o cannot be combined with -r listing",
                       file=sys.stderr)
                 sys.exit(1)
-            sys.stdout.write(render_listing(sessions))
+            sys.stdout.write(render_listing(sessions[-10:]))
             return
         if args.recent < 1 or args.recent > len(sessions):
             print(f"error: -r index {args.recent} out of range "
                   f"(1..{len(sessions)})", file=sys.stderr)
             sys.exit(1)
-        input_path = sessions[args.recent - 1]
+        input_path = sessions[-args.recent]
     elif args.input is None:
         project_dir = project_dir_for(Path.cwd())
         sessions = list_sessions(project_dir)
