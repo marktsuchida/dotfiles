@@ -8,16 +8,6 @@
   },
   "hooks": {
 {{- if eq .chezmoi.os "darwin" }}
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/bin/notify \"Claude Code\" Stopped"
-          }
-        ]
-      }
-    ],
     "Notification": [
       {
         "matcher": "permission_prompt",
@@ -25,6 +15,15 @@
           {
             "type": "command",
             "command": "$HOME/bin/claude-notify-macos"
+          }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/bin/notify \"Claude Code\" Idle"
           }
         ]
       }
