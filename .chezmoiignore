@@ -1,6 +1,7 @@
 *~
 .*.swp
 .DS_Store
+CLAUDE.*md
 
 # PowerShell profiles are in Documents. Note that not ignoring Documents/ on
 # macOS will cause chmod permission errors.
