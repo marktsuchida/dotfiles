@@ -18,10 +18,10 @@ However, do not ask whether I approve of the plan before presenting it to me.
 When writing the plan, write as if the executor will have only the plan and no
 conversation history. I will frequently execute the plan in a fresh session.
 
-## Analysis/reserach requests in Plan Mode
+## Analysis/research requests in Plan Mode
 
-I may sometimes ask you a question, ask you to analyze the code base, or ask
-you to perform some kind of research (on the code base or on the web), when you
+I may sometimes ask you a question, ask you to analyze the codebase, or ask
+you to perform some kind of research (on the codebase or on the web), when you
 are in Plan Mode. In such cases -- where there is no mention of planning or
 actionable tasks -- there is no need to create a plan yet. Just directly answer
 my request. I may then consider your response for actual planning.
@@ -52,14 +52,14 @@ not do those operations for me.
 For complex tasks that make changes in multiple stages, pause between stages to
 allow me to review and commit -- unless I instruct you otherwise. It is always
 a good idea to reiterate this in the plan for such complex tasks. Whether a
-task is complex enough to be multiple commits should be judged based on how
-we'd want the history to look 6 months from now.
+task is complex enough to warrant multiple commits should be judged based on
+how we'd want the history to look 6 months from now.
 
 {{- if eq .chezmoi.os "darwin" }}
 
 ## Text tools
 
-Here on macOS grep, sed, and awk (among others) are the BSD-derived versions,
+Here on macOS, grep, sed, and awk (among others) are the BSD-derived versions,
 but I usually have the GNU versions installed as ggrep, gsed, and gawk -- in
 case you need the GNU enhancements.
 
@@ -67,9 +67,9 @@ case you need the GNU enhancements.
 
 {{- if eq .chezmoi.os "windows" }}
 
-## Windows File Paths
+## Windows file paths
 
-Always use backslashes (`\`) not forward slashes in file paths for the
+Always use backslashes (`\`), not forward slashes, in file paths for the
 Read/Edit/Write tools.
 
 - ❌ `"D:/repos/project/file.tsx"`
