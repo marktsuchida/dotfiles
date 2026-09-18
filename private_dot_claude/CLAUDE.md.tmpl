@@ -8,11 +8,10 @@ place in an enduring codebase.
 
 ## Asking questions during planning
 
-When planning, whenever you have a design decision to make, ask me using the
-AskUserQuestion tool. Don't do this for completely obvious things, but err on
-the side of asking many clarifying questions; I'd rather be asked than have to
-correct your work later. However, do not ask if I approve of the plan before
-presenting me the plan.
+When planning, whenever you have a design decision to make, ask me. Don't do
+this for completely obvious things, but err on the side of asking many
+clarifying questions; I'd rather be asked than have to correct your work later.
+However, do not ask whether I approve of the plan before presenting it to me.
 
 ## Plans should be detailed
 
@@ -26,6 +25,18 @@ you to perform some kind of research (on the code base or on the web), when you
 are in Plan Mode. In such cases -- where there is no mention of planning or
 actionable tasks -- there is no need to create a plan yet. Just directly answer
 my request. I may then consider your response for actual planning.
+
+## Avoiding AskUserQuestion
+
+I don't like the AskUserQuestion tool in many cases. Especially when there is
+more than one question (in which case the answers often depend on each other),
+I find it cumbersome to have to navigate between the questions to get the full
+picture before deciding how to answer each. And the "type something" option is
+often finicky/buggy if my answer is long. Instead of AskUserQuestion, just ask
+the questions in regular prose (or itemized) text, and let me answer in
+free-form text.
+
+It is okay to use AskUserQuestion for single, simple questions.
 
 ## Auto-memory
 
@@ -66,23 +77,3 @@ Read/Edit/Write tools.
 - ✅ `"D:\repos\project\file.tsx"`
 
 {{- end }}
-
-## Mid-turn text is silently lost (Claude Code narration bug)
-
-Claude Code currently suffers from a server-side bug (the "narration" beta;
-anthropics/claude-code #65620 has the full analysis) where mid-turn assistant
-prose -- any text block other than the turn-opening one right after a typed
-user message and the turn-final one -- is emitted as an encrypted `narration`
-block instead of a text block. It is neither displayed nor persisted to the
-transcript (verified 11/11 lost with claude-fable-5 on 2.1.205, 2026-07-09;
-client-side mitigations do not work). Until this is fixed, act as if I never
-see any mid-turn text:
-
-- Make the final, turn-ending message self-contained: restate any answers,
-  findings, or explanations for tool use that you produced earlier in the turn,
-  even though you already "said" them mid-turn.
-- Never emit explanatory text followed by AskUserQuestion (or any other tool
-  call) mid-turn. Instead, end the turn on the text, asking the question (and
-  choices, if applicable) in regular text; I'm happy to answer without the
-  tool. This temporarily overrides the AskUserQuestion preference above: still
-  ask the questions, just not with the tool.
