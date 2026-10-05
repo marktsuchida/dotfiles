@@ -55,6 +55,11 @@ a good idea to reiterate this in the plan for such complex tasks. Whether a
 task is complex enough to warrant multiple commits should be judged based on
 how we'd want the history to look 6 months from now.
 
+## Commands that don't work in sandbox
+
+When running with the Claude Code sandbox enabled, the `gh` command typically
+fails if run inside the sandbox. Ask to run outside the sandbox.
+
 {{- if eq .chezmoi.os "darwin" }}
 
 ## Text tools
