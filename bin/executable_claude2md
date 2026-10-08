@@ -348,6 +348,8 @@ def render_listing(sessions: list[Path]) -> str:
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8")
+
     parser = argparse.ArgumentParser(
         description="Convert a Claude Code .jsonl session to Markdown."
     )
