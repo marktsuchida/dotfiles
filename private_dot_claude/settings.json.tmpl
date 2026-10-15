@@ -9,7 +9,10 @@
 {{- if eq .chezmoi.os "darwin" }}
     "enabled": true,
 {{- end }}
-    "autoAllowBashIfSandboxed": true
+    "autoAllowBashIfSandboxed": true,
+    "excludedCommands": [
+      "gh"
+    ]
   },
   "hooks": {
 {{- if eq .chezmoi.os "darwin" }}
