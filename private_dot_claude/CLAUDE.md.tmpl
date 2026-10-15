@@ -55,6 +55,14 @@ a good idea to reiterate this in the plan for such complex tasks. Whether a
 task is complex enough to warrant multiple commits should be judged based on
 how we'd want the history to look 6 months from now.
 
+## Shell variables in Bash commands
+
+When using shell variables (e.g., to shorten long paths), assign them in a
+separate statement without `export` (`D=/long/path; grep x "$D"/f`). Do not use
+`export` or command-prefix assignments (`FOO=bar cmd`) unless the command
+actually needs the variable in its environment: those forms trigger a
+permission prompt even when sandboxed with auto-allow.
+
 {{- if eq .chezmoi.os "darwin" }}
 
 ## Text tools
