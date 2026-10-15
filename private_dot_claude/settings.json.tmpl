@@ -5,6 +5,12 @@
     ],
     "defaultMode": "plan"
   },
+  "sandbox": {
+{{- if eq .chezmoi.os "darwin" }}
+    "enabled": true,
+{{- end }}
+    "autoAllowBashIfSandboxed": true
+  },
   "hooks": {
 {{- if eq .chezmoi.os "darwin" }}
     "Notification": [
