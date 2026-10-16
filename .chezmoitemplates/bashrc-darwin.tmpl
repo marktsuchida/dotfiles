@@ -112,11 +112,8 @@ source_if_file ~/google-cloud-sdk/completion.bash.inc
 export GNUTERM=qt
 
 
-# Go (Homebrew)
-if [ -x "$(command -v go)" ]; then
-	export GOROOT=/usr/local/opt/go/libexec
-	append_if_not_in_path PATH $GOROOT/bin
-fi
+# Go
+append_if_not_in_path PATH "$HOME/go/bin"
 
 
 # Java
