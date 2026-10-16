@@ -3,3 +3,9 @@ type = "archive"
 url = "https://github.com/vim-skk/eskk.vim/archive/e530575790cca5d6603b8ab984298459ecf3c0c0.zip"
 exact = true
 stripComponents = 1
+
+[".vim/pack/local/opt/lsp"]
+type = "archive"
+url = "https://github.com/yegappan/lsp/archive/c741b2f1afb42b9f267824dac4049674908f4a41.zip"
+exact = true
+stripComponents = 1

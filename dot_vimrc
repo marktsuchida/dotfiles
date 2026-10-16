@@ -185,6 +185,20 @@ let g:eskk#enable_completion = 0  " No neocomplete
 let g:eskk#egg_like_newline = 1
 let g:eskk#keep_state = 1
 
+""" LSP (yegappan/lsp)
+if v:version >= 900
+  packadd lsp
+  call LspAddServer([#{
+        \ name: 'zk',
+        \ filetype: ['markdown'],
+        \ path: 'zk',
+        \ args: ['lsp'],
+        \ rootSearch: ['.zk/'],
+        \ runIfSearch: ['.zk/'],
+        \ }])
+  autocmd User LspAttached setlocal tagfunc=lsp#lsp#TagFunc
+endif
+
 """ Hex editing
 
 " Enhanced hex mode with proper state management
