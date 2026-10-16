@@ -47,6 +47,14 @@ set list
 set listchars=trail:▫,tab:‣\ 
 set scrolloff=1
 
+" Cursor shape (DECSCUSR): bar in Insert, blinking block in Replace, else block
+" (underline would be hidden by cursorline)
+if s:is_unix && !has('gui_running')
+  let &t_SI = "\e[6 q"
+  let &t_SR = "\e[1 q"
+  let &t_EI = "\e[2 q"
+endif
+
 " Backups
 set backup
 set backupcopy=yes
