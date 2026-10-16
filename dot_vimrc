@@ -28,6 +28,10 @@ else
 endif
 
 
+""" EditorConfig (bundled with Vim 9.1+)
+silent! packadd! editorconfig
+
+
 """ General preference settings
 
 set autoindent
