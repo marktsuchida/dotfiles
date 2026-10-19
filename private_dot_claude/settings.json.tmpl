@@ -5,15 +5,6 @@
     ],
     "defaultMode": "plan"
   },
-  "sandbox": {
-{{- if eq .chezmoi.os "darwin" }}
-    "enabled": true,
-{{- end }}
-    "autoAllowBashIfSandboxed": true,
-    "excludedCommands": [
-      "gh"
-    ]
-  },
   "hooks": {
 {{- if eq .chezmoi.os "darwin" }}
     "Notification": [
@@ -41,6 +32,15 @@
   "statusLine": {
     "type": "command",
     "command": "bash -c ~/.claude/statusline.sh"
+  },
+  "sandbox": {
+{{- if eq .chezmoi.os "darwin" }}
+    "enabled": true,
+{{- end }}
+    "autoAllowBashIfSandboxed": true,
+    "excludedCommands": [
+      "gh"
+    ]
   },
   "spinnerTipsEnabled": false,
   "promptSuggestionEnabled": false,
