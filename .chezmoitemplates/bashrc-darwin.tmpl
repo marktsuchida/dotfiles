@@ -112,10 +112,6 @@ source_if_file ~/google-cloud-sdk/completion.bash.inc
 export GNUTERM=qt
 
 
-# Go
-append_if_not_in_path PATH "$HOME/go/bin"
-
-
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 if [ ! -z "$JAVA_HOME" ]; then
