@@ -1,3 +1,5 @@
 **/.claude/*.local.*
 **/.claude/.cc-writes/
 **/CLAUDE.local.md
+**/.vs/
+**/.vscode/
