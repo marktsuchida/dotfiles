@@ -63,13 +63,26 @@ separate statement without `export` (`D=/long/path; grep x "$D"/f`). Do not use
 actually needs the variable in its environment: those forms trigger a
 permission prompt even when sandboxed with auto-allow.
 
+## Reading, writing and editing text files
+
+Prefer the Edit and Write tools over shell commands (Bash or PowerShell) for
+modifying files. In particular, do not create or append to files with heredocs
+(`cat > file <<EOF`) or redirection (`echo ... >> file`), and do not edit files
+with sed, python, or similar scripts -- unless a script is clearly more
+efficient, such as for bulk renames across many files. Similarly, prefer the
+Read tool over shell commands for reading files.
+
+The dedicated tools show me a reviewable diff, keep track of file state so later
+edits don't go stale, and usually cause fewer permission prompts for me.
+
 {{- if eq .chezmoi.os "darwin" }}
 
-## Text tools
+## GNU text tools on macOS
 
 Here on macOS, grep, sed, and awk (among others) are the BSD-derived versions,
 but I usually have the GNU versions installed as ggrep, gsed, and gawk -- in
-case you need the GNU enhancements.
+case you need the GNU enhancements. These are for searching and transforming
+text; the guidance above about editing files with Edit/Write still applies.
 
 {{- end }}
 
