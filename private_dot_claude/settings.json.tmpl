@@ -1,7 +1,9 @@
 {
   "permissions": {
     "deny": [
-      "Edit(.git/**)"
+      "Edit(.git/**)",
+      "Read(~/.ssh/**)",
+      "Edit(~/.ssh/**)"
     ],
     "defaultMode": "plan"
   },
@@ -40,7 +42,14 @@
     "autoAllowBashIfSandboxed": true,
     "excludedCommands": [
       "gh"
-    ]
+    ],
+    "filesystem": {
+      "allowWrite": [
+        "~/.cache/uv",
+        "~/.local/share/uv",
+        "~/Library/Caches/ccache"
+      ]
+    }
   },
   "spinnerTipsEnabled": false,
   "promptSuggestionEnabled": false,
